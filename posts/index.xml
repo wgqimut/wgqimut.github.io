@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 比克王国</title>
+    <link>https://wgqimut.github.io/posts/</link>
+    <description>Recent content in Posts on 比克王国</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-ZH</language>
+    <lastBuildDate>Sat, 16 Nov 2019 18:46:37 +0800</lastBuildDate>
+    
+	<atom:link href="https://wgqimut.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>跟远程机器打交道之认识ssh</title>
+      <link>https://wgqimut.github.io/posts/know-ssh/</link>
+      <pubDate>Sat, 16 Nov 2019 18:46:37 +0800</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/know-ssh/</guid>
+      <description>作为一个开发者, 跟远程服务器打交道是在所难免的. ssh是我们经常用到的, 但是 ssh 其实有很多方便的配置和使用方法, 可以帮助我们更轻松的跟远程服务器交互, 下面一一介绍. 简化登录 给远程服务器起个名字吧 ssh 一般是使用ssh &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;, 然后输入密码的方式来登录服务器, 其实可以有更简单的方式. 我们 ssh 的时候</description>
+    </item>
+    
+    <item>
+      <title>Git里引用一个commit</title>
+      <link>https://wgqimut.github.io/posts/git-refs/</link>
+      <pubDate>Sun, 14 Oct 2018 01:48:03 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/git-refs/</guid>
+      <description>git所有的操作, 其实都是在跟commit打交道: 你stage你的commit, 创建一个commit, 查看之前的commit, 把commit在不同的branch之间挪动, push你的commit等等. 那么, 怎么指定commit就很重要. 1. 通过commit hash来指定. 一个com</description>
+    </item>
+    
+    <item>
+      <title>关于proxy设置</title>
+      <link>https://wgqimut.github.io/posts/about-proxy/</link>
+      <pubDate>Fri, 17 Aug 2018 11:23:50 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/about-proxy/</guid>
+      <description>我们在设置proxy的路上, 总是充满了跌跌撞撞, 虽然你在系统上启用了proxy, 但是总有的软件它就不行, 比如终端, 比如telegram, 比如docker, 哼哼, 这些软件啊, 就喜欢自己搞事情. Q: 为什么有的软件就是不能应用系统的proxy呢? A: 这是因为, 那个软件, 有自己单独的prox</description>
+    </item>
+    
+    <item>
+      <title>命令行之浏览文件系统</title>
+      <link>https://wgqimut.github.io/posts/fs-walk/</link>
+      <pubDate>Tue, 24 Jul 2018 16:41:54 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/fs-walk/</guid>
+      <description>查看文件系统, 主要有几个需求: 我在哪儿 我要去哪儿 当前目录下有什么 1. 我在哪儿: pwd 2. 我要去哪儿: 两种方式去, 一种是绝对路径, 一种是相对路径. cd /home/grady/workspace # 绝对路径去 cd ../scripts #相对路径去, 去往当前目录的上一级目录下的scripts目录 ..是一个特殊的目录, 表示当前目录的上一级目录. .也是一个特殊目</description>
+    </item>
+    
+    <item>
+      <title>python2.7版本tuple中的中文编码问题</title>
+      <link>https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 24 Jan 2017 00:04:36 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
+      <description>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文str ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。 中文字符正常情况下应该是这样的： &amp;gt;&amp;gt;&amp;gt; a = &#39;中文123&#39; &amp;gt;&amp;gt;&amp;gt; print(a) 中文123 但是你如果把一</description>
+    </item>
+    
+    <item>
+      <title>烦人的rpm安装错误</title>
+      <link>https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Thu, 19 Jan 2017 11:18:37 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/</guid>
+      <description>在本地安装rpm包的时候，碰到 error: Failed dependencies: libz.so.1(ZLIB_1.2.0)(64bit) is needed by XXX 这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种，提示你有动态库依赖但是你已经装了这个库的错误，基本就是版本问题（注意看小版本</description>
+    </item>
+    
+    <item>
+      <title>wxPython学习笔记</title>
+      <link>https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 05 Dec 2016 14:31:53 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>A wx.Frame is a top-level window. When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that wx.Window should represent a window on the screen. Unfortunately, this is not the case. A wx.Window is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a wx.Frame. This is an unfortunate inconsistency that has led to much confusion for new users. Within a frame, you&amp;rsquo;ll use a number of wxWindow sub-classes to flesh out the frame&amp;rsquo;s contents. Here are some of the more common elements you might want to put in your frame: * A wx.MenuBar, which puts a menu bar along the top of your frame. * A wx.StatusBar, which sets up an area along the bottom of</description>
+    </item>
+    
+    <item>
+      <title>软件工程学习</title>
+      <link>https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sat, 16 Apr 2016 10:36:03 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/</guid>
+      <description>对这门课的希望： 1. 能够通过学习正确的软件开发流程，并应用的实际构建过程中，以减少对时间的浪费，并保证软件的质量。 2. 能够掌握软件开发每个流程的一些工具。学会使用工具很重要。 没有实际目标，目的的学习，都是耍流氓。学和不学差不多。</description>
+    </item>
+    
+    <item>
+      <title>Centos6 rrdtool环境配置</title>
+      <link>https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/</guid>
+      <description>首先是rrdtool这个工具的介绍： rrd比较好的介绍以及 rrdtool的python实例 其次，怎样才能把rrdtool生成的图弄得漂亮一些呢，默认的图太丑太不fashion了。 CentOS上安装rrdtool 正常情况下，当然是用yum安装: yum install rrdtool rrdtool-devel 然后 pip install rrdtool 由于网管系统是基于P</description>
+    </item>
+    
+    <item>
+      <title>flask学习笔记</title>
+      <link>https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>当前工作路径 操作系统有进程当前工作目录的概念。不幸的是，你在 Web 应用中不能依赖此概念，因为你可能会在相同的进程中运行多个应用。 为此，提供了 app.root_path 属性以获取应用的路径。配合 os.path 模块使用，轻松可达任意文件 配置 a cleaner solution would be to create a separate .ini or .py file and load that or import the values from there.</description>
+    </item>
+    
+    <item>
+      <title>python装饰器学习</title>
+      <link>https://wgqimut.github.io/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description>装饰器的的几种用途： 注入参数（提供默认参数，生成参数） 记录函数行为（日志、缓存、计时什么的） 预处理／后处理（配置上下文什么的） 修改调用时的上下文（线程异步或者并行，类方法）</description>
+    </item>
+    
+    <item>
+      <title>性能优化模式</title>
+      <link>https://wgqimut.github.io/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 07 Apr 2016 12:43:03 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</guid>
+      <description>一般而言，性能优化指降低响应时间和提高系统吞吐量两个方面，但在流量高峰时候，性能问题往往会表现为服务可用性下降，所以性能优化也可以包括提高服务可用性。在某些情况下，降低响应时间、提高系统吞吐量和提高服务可用性三者相互矛盾，不可兼得。例如：增加缓存可以降低平均响应时间，但是处理线程</description>
+    </item>
+    
+    <item>
+      <title>python的from-import机制</title>
+      <link>https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Thu, 19 Nov 2015 09:16:26 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/</guid>
+      <description>在使用Python的过程中，我遇到了这么一个有关模块导入的bug。 先说我的目录结构 core foo.py bar.py shit.py fuck.py __init__.py （对，这就是我的目录结构😂） 其中fuck.py里import了shit和bar,shit和bar里都import了foo,但是import的方式是不一样的,所有文件内容如下： # fuck.py import shit import bar</description>
+    </item>
+    
+    <item>
+      <title>比较喜欢的人生态度</title>
+      <link>https://wgqimut.github.io/posts/%E6%AF%94%E8%BE%83%E5%96%9C%E6%AC%A2%E7%9A%84%E4%BA%BA%E7%94%9F%E6%80%81%E5%BA%A6/</link>
+      <pubDate>Mon, 09 Nov 2015 08:23:02 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E6%AF%94%E8%BE%83%E5%96%9C%E6%AC%A2%E7%9A%84%E4%BA%BA%E7%94%9F%E6%80%81%E5%BA%A6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>unix网络编程笔记</title>
+      <link>https://wgqimut.github.io/posts/unix%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 14 Jul 2015 09:31:13 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/unix%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</guid>
+      <description>使用bzero而不是memset 使用inet_pton而不是inet_addr struct sockaddr, that is, a generic socket address structure. Everytime one of the socket functions requires a pointer to a socket address structure, that pointer must be cast to a pointer to a generic socket address structure. （因为socket函数出现的时候还没有void*）struct sockaddr太长了，一般会缩写成SA tcp编程里关于读数据 when reading</description>
+    </item>
+    
+    <item>
+      <title>听歌</title>
+      <link>https://wgqimut.github.io/posts/%E5%90%AC%E6%AD%8C/</link>
+      <pubDate>Thu, 09 Jul 2015 08:33:21 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E5%90%AC%E6%AD%8C/</guid>
+      <description>《With or Without you》</description>
+    </item>
+    
+    <item>
+      <title>博客搭建</title>
+      <link>https://wgqimut.github.io/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Thu, 09 Jul 2015 00:56:36 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</guid>
+      <description>所以说我的博客终于搭建好了么？😂那么现在就差买一个域名了。好折腾。。。先来一个经典的hello world。 #include &amp;lt;stdio.h&amp;gt; int main(void) { printf(&amp;quot;hello, world&amp;quot;); return 0; } 黎明你好。困死了。。睡。</description>
+    </item>
+    
+    <item>
+      <title>tornado学习笔记</title>
+      <link>https://wgqimut.github.io/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 03 Apr 2015 12:42:23 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>状态机在编程中的应用</title>
+      <link>https://wgqimut.github.io/posts/%E7%8A%B6%E6%80%81%E6%9C%BA%E5%9C%A8%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Fri, 13 Feb 2015 12:34:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E7%8A%B6%E6%80%81%E6%9C%BA%E5%9C%A8%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/</guid>
+      <description>正则表达式（解析字符串） 网络协议 游戏设计(人物的行为) 自动客服（如10086）（流程类的东西） 处理程序语言或者自然语言的 tokenizer 自底向上解析语法的parser 各种通信协议发送方和接受方传递数据时升级版， 如果状态之间的转换是有概率的，就是markov 模型 如何设计一个优雅的状态机？ 不要用判</description>
+    </item>
+    
+  </channel>
+</rss>

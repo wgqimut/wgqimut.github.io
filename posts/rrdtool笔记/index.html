@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en-ZH">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Centos6 rrdtool环境配置 | 比克王国</title>
+    <meta property="og:title" content="Centos6 rrdtool环境配置 - 比克王国">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2016-04-09T12:53:09&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2016-04-09T12:53:09&#43;08:00">
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="Centos6 rrdtool环境配置">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://wgqimut.github.io/">
+                        比克王国
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://wgqimut.github.io/">首页</a>
+                    
+                    <a  href="https://wgqimut.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://wgqimut.github.io/about/" title="关于">关于</a>
+                    
+                    <a  href="https://wgqimut.github.io/" title=""></a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+        
+        
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Centos6 rrdtool环境配置</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2016年4月9日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://wgqimut.github.io/categories/tools">tools</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<p>首先是rrdtool这个工具的介绍：
+<a href="http://zhaochj.blog.51cto.com/368705/1657026">rrd比较好的介绍</a>以及
+<a href="http://qushouxichuan.com/blog/article/60">rrdtool的python实例</a></p>
+
+<p>其次，怎样才能把rrdtool生成的图弄得漂亮一些呢，默认的图太丑太不fashion了。</p>
+
+<h4 id="centos上安装rrdtool">CentOS上安装rrdtool</h4>
+
+<p>正常情况下，当然是用yum安装:</p>
+
+<pre><code>yum install rrdtool rrdtool-devel
+</code></pre>
+
+<p>然后</p>
+
+<pre><code>pip install rrdtool
+</code></pre>
+
+<p>由于网管系统是基于Python2.7开发的，centos6.5默认的python版本是2.6.6，手动升级到python2.7之后，再安装rrdtool的python支持（<code>pip install rrdtool</code>), 在python使用，就会报错。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; import rrdtool
+Traceback (most recent call last):
+ File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ImportError: /usr/local/lib/python2.7/site-packages/rrdtoolmodule.so: undefined symbol: rrd_flushcached
+</code></pre>
+
+<p>解决方案是：用rrdtool源码重新编译安装rrdtool（而不是通过yum源去安装rpm包）。</p>
+
+<pre><code>#由于rrdtool官网有时候会连不上，而且centos默认的rrdtool版本是1.3.8，所有我就自建下载地址
+wget http://oss.oetiker.ch/rrdtool/pub/rrdtool-1.3.8.tar.gz
+tar zxvf rrdtool-1.3.8.tar.gz
+cd rrdtool-1.3.8
+yum install -y libxml pango*
+./configure --prefix=/usr/local
+make
+make install
+
+# 安装rrdtool-python
+pip install rrdtool
+</code></pre>
+
+<p>安装后如果遇到下面这个问题：</p>
+
+<pre><code>&gt;&gt;&gt; import rrdtool
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ImportError: librrd.so.4: cannot open shared object file: No such file or directory
+&gt;&gt;&gt;
+
+</code></pre>
+
+<p>解决办法是将rrdtool库做软链接到/usr/lib</p>
+
+<pre><code>ln -s /usr/local/lib/librrd* /usr/lib
+ldconfig
+</code></pre>
+
+<h5 id="安装rrdtool-php">安装rrdtool-php</h5>
+
+<p>环境：php版本5.3.3，rrdtool版本1.3.8</p>
+
+<pre><code>wget https://pecl.php.net/get/rrd-1.1.3.tgz
+tar xvf rrd-1.1.3.tgz
+cd rrd-1.1.3
+phpize # 是用来扩展php扩展模块的，通过phpize可以建立php的外挂模块
+./configure
+make
+make install
+</code></pre>
+
+<p>在/etc/php.d/里添加rrd.ini，仿照其他的ini文件，填上内容。重启httpd服务，完事。
+哦， 不对，<code>php -m</code>看一下rrd模块加载进去没，如果有rrd则完事。</p>
+
+<p>附录：<a href="https://www.phparch.com/2011/02/creating-rrd-graphs-in-php/">php的rrdtool教程</a></p>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://wgqimut.github.io/">比克王国</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/">https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://wgqimut.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/know-ssh/" title="跟远程机器打交道之认识ssh">跟远程机器打交道之认识ssh</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/git-refs/" title="Git里引用一个commit">Git里引用一个commit</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/about-proxy/" title="关于proxy设置">关于proxy设置</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/fs-walk/" title="命令行之浏览文件系统">命令行之浏览文件系统</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" title="python2.7版本tuple中的中文编码问题">python2.7版本tuple中的中文编码问题</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/" title="烦人的rpm安装错误">烦人的rpm安装错误</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="wxPython学习笔记">wxPython学习笔记</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/" title="软件工程学习">软件工程学习</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/" title="Centos6 rrdtool环境配置">Centos6 rrdtool环境配置</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="flask学习笔记">flask学习笔记</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://wgqimut.github.io/categories/cmd/">cmd (3)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/life/">life (1)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/programming/">programming (3)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/tools/">tools (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://wgqimut.github.io/tags/life/">life</a>
+    
+    <a href="https://wgqimut.github.io/tags/python/">python</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.itwork.club/" title="">IT 俱乐部</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="http://coolshell.cn/" title="">酷壳</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://wgqimut.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        
+        (function () {
+            $("pre code").parent().addClass("line-numbers")
+        }());
+
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>

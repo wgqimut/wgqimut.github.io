@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en-ZH">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>python2.7版本tuple中的中文编码问题 | 比克王国</title>
+    <meta property="og:title" content="python2.7版本tuple中的中文编码问题 - 比克王国">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2017-01-24T00:04:36&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2017-01-24T00:04:36&#43;08:00">
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="python2.7版本tuple中的中文编码问题">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://wgqimut.github.io/">
+                        比克王国
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://wgqimut.github.io/">首页</a>
+                    
+                    <a  href="https://wgqimut.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://wgqimut.github.io/about/" title="关于">关于</a>
+                    
+                    <a  href="https://wgqimut.github.io/" title=""></a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+        
+        
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">python2.7版本tuple中的中文编码问题</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2017年1月24日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://wgqimut.github.io/categories/programming">Programming</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<p>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文<code>str</code> ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。</p>
+
+<p>中文字符正常情况下应该是这样的：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; a = '中文123'
+&gt;&gt;&gt; print(a)
+中文123
+</code></pre>
+
+<p>但是你如果把一个包含中文的字符放到<code>tuple</code> 里面，却会变成这样：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; a = tuple(['中文123', 'hello'])
+&gt;&gt;&gt; print(a)
+('\xe4\xb8\xad\xe6\x96\x87123', 'hello') # 这里按理说应该显示的是('中文123', 'hello')
+</code></pre>
+
+<p>中文字符显示成了编码后的十六进制形式，也就是说，<code>\x</code> 这个python的保留字符(用来表示它后面两个字符是十六进制值)，并没有得到“正确的”解析，实际上这里是把<code>'\xe4\xb8\xad\xe6\x96\x87'</code> 当成一个<code>raw strings</code> 来处理，这里面的<code>\x</code> 没有任何特别的意思，就是字面的<code>\x</code> ，所有它后面十六进制数也都只是表面上的意思。</p>
+
+<h4 id="为什么会这样">为什么会这样？</h4>
+
+<p><code>tuple</code> 应该是对它里面的<code>str</code> 做了一个<code>encode('string_escape')</code> 的操作，这个操作同<code>r''</code>等价，意思是生成一个<code>raw strings</code>，官方的解释是<strong>Produce a string that is suitable as string literal in Python source code</strong>, 我们做个实验：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; a = '中文123'
+&gt;&gt;&gt; a
+'\xe4\xb8\xad\xe6\x96\x87123'
+&gt;&gt;&gt; print(a)
+中文123
+&gt;&gt;&gt; b = a.encode('string_escape')
+&gt;&gt;&gt; b
+'\\xe4\\xb8\\xad\\xe6\\x96\\x87123'
+&gt;&gt;&gt; print(b)
+\xe4\xb8\xad\xe6\x96\x87123
+</code></pre>
+
+<p>嗯，一切都清楚了，那么问题来了，<code>tuple</code> 为啥要这么干呢&hellip;暂时不知道&hellip;</p>
+
+<h4 id="解决办法">解决办法</h4>
+
+<p>对字符做<code>decode('string_escape')</code>就可以了。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; c = b.decode('string_escape')
+&gt;&gt;&gt; print(c)
+中文123
+</code></pre>
+
+<h4 id="总结">总结</h4>
+
+<p>首先，<code>tuple</code> 会它里面的中文字符做一个<code>r''</code> 的转换，这是个坑，踩过了就不说了。</p>
+
+<p>其次，知道了<code>r''</code>的函数写法是这样的: <code>encode('string_escape')</code> ，也就是说，从此以后，可以对一个变量进行<code>r''</code> 操作啦。</p>
+
+<h4 id="拓展">拓展</h4>
+
+<p>其实还有一个<code>unicode_escape</code> 的编码方式</p>
+
+<blockquote>
+<p>官方的解释是Produce a string that is suitable as Unicode literal in Python source code.</p>
+</blockquote>
+
+<p>也就是说，将<code>\u</code> 这个保留字符按照字面意思去解释，也就是<code>raw unicode</code>话。</p>
+
+<p><strong><code>string_escape</code> 和<code>unicode_escape</code> 都是将转义字符<code>raw</code> 话，将它们当做普通字符来看待，只不过前者只能针对<code>str</code> （编码后的字符）进行操作，后者是针对<code>unicode</code>字符进行操作。</strong></p>
+
+<pre><code class="language-python">&gt;&gt;&gt; a = u'中文'
+&gt;&gt;&gt; a
+u'\u4e2d\u6587'
+&gt;&gt;&gt; print(a)
+中文
+&gt;&gt;&gt; b = a.encode('unicode_escape')
+'\\u4e2d\\u6587'
+&gt;&gt;&gt; print(b)
+\u4e2d\u6587
+</code></pre>
+
+<h4 id="题外话">题外话</h4>
+
+<p>是时候转Python3了。</p>
+
+<h4 id="参考链接">参考链接：</h4>
+
+<p><a href="https://docs.python.org/2.7/reference/lexical_analysis.html#string-literals">python的转义字符</a></p>
+
+<p><a href="https://docs.python.org/2/library/codecs.html"><code>unicode_escape</code>和`string_escape</a>`</p>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://wgqimut.github.io/">比克王国</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/">https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">wxPython学习笔记</a></li>
+        
+        <li><a href="/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">flask学习笔记</a></li>
+        
+        <li><a href="/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/">python装饰器学习</a></li>
+        
+        <li><a href="/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/">python的from-import机制</a></li>
+        
+        <li><a href="/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">tornado学习笔记</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="https://wgqimut.github.io/tags/python">python</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://wgqimut.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/know-ssh/" title="跟远程机器打交道之认识ssh">跟远程机器打交道之认识ssh</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/git-refs/" title="Git里引用一个commit">Git里引用一个commit</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/about-proxy/" title="关于proxy设置">关于proxy设置</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/fs-walk/" title="命令行之浏览文件系统">命令行之浏览文件系统</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" title="python2.7版本tuple中的中文编码问题">python2.7版本tuple中的中文编码问题</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/" title="烦人的rpm安装错误">烦人的rpm安装错误</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="wxPython学习笔记">wxPython学习笔记</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/" title="软件工程学习">软件工程学习</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/" title="Centos6 rrdtool环境配置">Centos6 rrdtool环境配置</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="flask学习笔记">flask学习笔记</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://wgqimut.github.io/categories/cmd/">cmd (3)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/life/">life (1)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/programming/">programming (3)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/tools/">tools (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://wgqimut.github.io/tags/life/">life</a>
+    
+    <a href="https://wgqimut.github.io/tags/python/">python</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.itwork.club/" title="">IT 俱乐部</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="http://coolshell.cn/" title="">酷壳</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://wgqimut.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        
+        (function () {
+            $("pre code").parent().addClass("line-numbers")
+        }());
+
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>

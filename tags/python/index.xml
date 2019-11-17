@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on 比克王国</title>
+    <link>https://wgqimut.github.io/tags/python/</link>
+    <description>Recent content in python on 比克王国</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-ZH</language>
+    <lastBuildDate>Tue, 24 Jan 2017 00:04:36 +0000</lastBuildDate>
+    
+	<atom:link href="https://wgqimut.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>python2.7版本tuple中的中文编码问题</title>
+      <link>https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 24 Jan 2017 00:04:36 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
+      <description>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文str ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。 中文字符正常情况下应该是这样的： &amp;gt;&amp;gt;&amp;gt; a = &#39;中文123&#39; &amp;gt;&amp;gt;&amp;gt; print(a) 中文123 但是你如果把一</description>
+    </item>
+    
+    <item>
+      <title>wxPython学习笔记</title>
+      <link>https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 05 Dec 2016 14:31:53 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>A wx.Frame is a top-level window. When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that wx.Window should represent a window on the screen. Unfortunately, this is not the case. A wx.Window is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a wx.Frame. This is an unfortunate inconsistency that has led to much confusion for new users. Within a frame, you&amp;rsquo;ll use a number of wxWindow sub-classes to flesh out the frame&amp;rsquo;s contents. Here are some of the more common elements you might want to put in your frame: * A wx.MenuBar, which puts a menu bar along the top of your frame. * A wx.StatusBar, which sets up an area along the bottom of</description>
+    </item>
+    
+    <item>
+      <title>flask学习笔记</title>
+      <link>https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>当前工作路径 操作系统有进程当前工作目录的概念。不幸的是，你在 Web 应用中不能依赖此概念，因为你可能会在相同的进程中运行多个应用。 为此，提供了 app.root_path 属性以获取应用的路径。配合 os.path 模块使用，轻松可达任意文件 配置 a cleaner solution would be to create a separate .ini or .py file and load that or import the values from there.</description>
+    </item>
+    
+    <item>
+      <title>python装饰器学习</title>
+      <link>https://wgqimut.github.io/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description>装饰器的的几种用途： 注入参数（提供默认参数，生成参数） 记录函数行为（日志、缓存、计时什么的） 预处理／后处理（配置上下文什么的） 修改调用时的上下文（线程异步或者并行，类方法）</description>
+    </item>
+    
+    <item>
+      <title>python的from-import机制</title>
+      <link>https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Thu, 19 Nov 2015 09:16:26 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/</guid>
+      <description>在使用Python的过程中，我遇到了这么一个有关模块导入的bug。 先说我的目录结构 core foo.py bar.py shit.py fuck.py __init__.py （对，这就是我的目录结构😂） 其中fuck.py里import了shit和bar,shit和bar里都import了foo,但是import的方式是不一样的,所有文件内容如下： # fuck.py import shit import bar</description>
+    </item>
+    
+    <item>
+      <title>tornado学习笔记</title>
+      <link>https://wgqimut.github.io/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 03 Apr 2015 12:42:23 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

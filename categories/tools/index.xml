@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tools on 比克王国</title>
+    <link>https://wgqimut.github.io/categories/tools/</link>
+    <description>Recent content in tools on 比克王国</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-ZH</language>
+    <lastBuildDate>Fri, 17 Aug 2018 11:23:50 +0000</lastBuildDate>
+    
+	<atom:link href="https://wgqimut.github.io/categories/tools/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>关于proxy设置</title>
+      <link>https://wgqimut.github.io/posts/about-proxy/</link>
+      <pubDate>Fri, 17 Aug 2018 11:23:50 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/about-proxy/</guid>
+      <description>我们在设置proxy的路上, 总是充满了跌跌撞撞, 虽然你在系统上启用了proxy, 但是总有的软件它就不行, 比如终端, 比如telegram, 比如docker, 哼哼, 这些软件啊, 就喜欢自己搞事情. Q: 为什么有的软件就是不能应用系统的proxy呢? A: 这是因为, 那个软件, 有自己单独的prox</description>
+    </item>
+    
+    <item>
+      <title>Centos6 rrdtool环境配置</title>
+      <link>https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/</guid>
+      <description>首先是rrdtool这个工具的介绍： rrd比较好的介绍以及 rrdtool的python实例 其次，怎样才能把rrdtool生成的图弄得漂亮一些呢，默认的图太丑太不fashion了。 CentOS上安装rrdtool 正常情况下，当然是用yum安装: yum install rrdtool rrdtool-devel 然后 pip install rrdtool 由于网管系统是基于P</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en-ZH">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.59.1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>命令行之浏览文件系统 | 比克王国</title>
+    <meta property="og:title" content="命令行之浏览文件系统 - 比克王国">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2018-07-24T16:41:54&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2018-07-24T16:41:54&#43;08:00">
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="命令行之浏览文件系统">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://wgqimut.github.io/posts/fs-walk/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://wgqimut.github.io/">
+                        比克王国
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://wgqimut.github.io/">首页</a>
+                    
+                    <a  href="https://wgqimut.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://wgqimut.github.io/about/" title="关于">关于</a>
+                    
+                    <a  href="https://wgqimut.github.io/" title=""></a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+        
+        
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">命令行之浏览文件系统</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2018年7月24日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://wgqimut.github.io/categories/cmd">cmd</a></span>
+                            
+                        </div>
+                        
+                        
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
+                        </div>
+                        
+                        
+                        <div class="post-content">
+                            
+
+<p>查看文件系统, 主要有几个需求:</p>
+
+<ol>
+<li>我在哪儿</li>
+<li>我要去哪儿</li>
+<li>当前目录下有什么</li>
+</ol>
+
+<h3 id="1-我在哪儿">1. 我在哪儿:</h3>
+
+<pre><code class="language-sh">pwd
+</code></pre>
+
+<h3 id="2-我要去哪儿">2. 我要去哪儿:</h3>
+
+<p>两种方式去, 一种是<strong>绝对路径</strong>, 一种是<strong>相对路径</strong>.</p>
+
+<pre><code class="language-shell">cd /home/grady/workspace # 绝对路径去
+cd ../scripts #相对路径去, 去往当前目录的上一级目录下的scripts目录
+</code></pre>
+
+<p><code>..</code>是一个特殊的目录, 表示当前目录的上一级目录.</p>
+
+<p><code>.</code>也是一个特殊目录, 表示当前目录.</p>
+
+<h3 id="3-当前路径下有什么">3. 当前路径下有什么</h3>
+
+<ul>
+<li><p>简单列出</p>
+
+<pre><code class="language-sh">ls #单纯的列出有哪些文件
+➜ ls
+a.mp4  c  d  dir1  e  m.c  s.js  test.pdf
+</code></pre>
+
+<p>类似于Finder的这个视图:
+<img src="http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270740549343.png" alt="" /></p></li>
+
+<li><p>详细列出</p></li>
+</ul>
+
+<p>我们还可能会这么查看:</p>
+
+<p><img src="http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270902739802.png" alt="" /></p>
+
+<p>这个可以通过使用<code>ls -ltrh</code>来做到:</p>
+
+<pre><code class="language-sh">   ➜  ls -ltrh
+   total 500K
+   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:00 test.pdf
+   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 a.mp4
+   drwxr-xr-x 2 ilbsmart staff   64 Jul 28 00:01 dir1
+   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 c
+   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 d
+   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 e
+   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 m.c
+   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 s.js
+   -rw-r--r-- 1 ilbsmart staff 500K Jul 28 00:08 big_one
+
+  # -l 显示更详细的信息
+  # -t是指按照时间从最新到最老来排序
+  # -r reserve sort, 有的时候目录下文件太多, 我们更希望最后显示的是最新的文件, 也就是说, 从最老到最新排序, 可以加上这个参数
+  # -h 以人类可以看懂的方式显示size, 默认其实是以字节数来显示每个entry的大小的.
+</code></pre>
+
+<ul>
+<li><p>更多</p>
+
+<p>常用的还有</p>
+
+<ul>
+<li><code>ls -R</code>: 递归显示当前目录下所有目录下的文件.</li>
+<li><code>ls *.js</code> 只显示后缀是<code>.js</code>的文件</li>
+</ul></li>
+</ul>
+
+                        </div>
+
+                        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://wgqimut.github.io/">比克王国</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://wgqimut.github.io/posts/fs-walk/">https://wgqimut.github.io/posts/fs-walk/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+                        
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            没有标签
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://wgqimut.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/know-ssh/" title="跟远程机器打交道之认识ssh">跟远程机器打交道之认识ssh</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/git-refs/" title="Git里引用一个commit">Git里引用一个commit</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/about-proxy/" title="关于proxy设置">关于proxy设置</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/fs-walk/" title="命令行之浏览文件系统">命令行之浏览文件系统</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" title="python2.7版本tuple中的中文编码问题">python2.7版本tuple中的中文编码问题</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/" title="烦人的rpm安装错误">烦人的rpm安装错误</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="wxPython学习笔记">wxPython学习笔记</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/" title="软件工程学习">软件工程学习</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/" title="Centos6 rrdtool环境配置">Centos6 rrdtool环境配置</a>
+    </li>
+    
+    <li>
+        <a href="https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="flask学习笔记">flask学习笔记</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://wgqimut.github.io/categories/cmd/">cmd (3)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/life/">life (1)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/programming/">programming (3)</a></li>
+    
+    <li><a href="https://wgqimut.github.io/categories/tools/">tools (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://wgqimut.github.io/tags/life/">life</a>
+    
+    <a href="https://wgqimut.github.io/tags/python/">python</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.itwork.club/" title="">IT 俱乐部</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="http://coolshell.cn/" title="">酷壳</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://wgqimut.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        
+        (function () {
+            $("pre code").parent().addClass("line-numbers")
+        }());
+
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+</html>
