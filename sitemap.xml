@@ -33,16 +33,6 @@
   </url>
   
   <url>
-    <loc>https://wgqimut.github.io/categories/tools/</loc>
-    <lastmod>2018-08-17T11:23:50+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wgqimut.github.io/posts/about-proxy/</loc>
-    <lastmod>2018-08-17T11:23:50+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://wgqimut.github.io/posts/fs-walk/</loc>
     <lastmod>2018-07-24T16:41:54+00:00</lastmod>
   </url>
@@ -94,6 +84,11 @@
   
   <url>
     <loc>https://wgqimut.github.io/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2016-04-09T12:53:09+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wgqimut.github.io/categories/tools/</loc>
     <lastmod>2016-04-09T12:53:09+00:00</lastmod>
   </url>
   
