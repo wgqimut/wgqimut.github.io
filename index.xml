@@ -30,15 +30,6 @@
     </item>
     
     <item>
-      <title>关于proxy设置</title>
-      <link>https://wgqimut.github.io/posts/about-proxy/</link>
-      <pubDate>Fri, 17 Aug 2018 11:23:50 +0000</pubDate>
-      
-      <guid>https://wgqimut.github.io/posts/about-proxy/</guid>
-      <description>我们在设置proxy的路上, 总是充满了跌跌撞撞, 虽然你在系统上启用了proxy, 但是总有的软件它就不行, 比如终端, 比如telegram, 比如docker, 哼哼, 这些软件啊, 就喜欢自己搞事情. Q: 为什么有的软件就是不能应用系统的proxy呢? A: 这是因为, 那个软件, 有自己单独的prox</description>
-    </item>
-    
-    <item>
       <title>命令行之浏览文件系统</title>
       <link>https://wgqimut.github.io/posts/fs-walk/</link>
       <pubDate>Tue, 24 Jul 2018 16:41:54 +0000</pubDate>
