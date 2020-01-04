@@ -17,7 +17,7 @@
       <pubDate>Tue, 24 Jan 2017 00:04:36 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
-      <description>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文str ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。 中文字符正常情况下应该是这样的： &amp;gt;&amp;gt;&amp;gt; a = &#39;中文123&#39; &amp;gt;&amp;gt;&amp;gt; print(a) 中文123 但是你如果把一</description>
+      <description>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文str ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。 中文字符正常情况下应该是这样的： &amp;gt;&amp;gt;&amp;gt; a = &amp;#39;中文123&amp;#39; &amp;gt;&amp;gt;&amp;gt; print(a) 中文12</description>
     </item>
     
     <item>
@@ -26,7 +26,7 @@
       <pubDate>Mon, 05 Dec 2016 14:31:53 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-      <description>A wx.Frame is a top-level window. When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that wx.Window should represent a window on the screen. Unfortunately, this is not the case. A wx.Window is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a wx.Frame. This is an unfortunate inconsistency that has led to much confusion for new users. Within a frame, you&amp;rsquo;ll use a number of wxWindow sub-classes to flesh out the frame&amp;rsquo;s contents. Here are some of the more common elements you might want to put in your frame: * A wx.MenuBar, which puts a menu bar along the top of your frame. * A wx.StatusBar, which sets up an area along the bottom of</description>
+      <description>A wx.Frame is a top-level window. When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that wx.Window should represent a window on the screen. Unfortunately, this is not the case. A wx.Window is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a wx.Frame. This is an unfortunate inconsistency that has led to much confusion for new users. Within a frame, you&#39;ll use a number of wxWindow sub-classes to flesh out the frame&#39;s contents. Here are some of the more common elements you might want to put in your frame: A wx.MenuBar, which puts a menu bar along the top of your frame. A wx.StatusBar, which sets up an area along the bottom of your frame</description>
     </item>
     
     <item>

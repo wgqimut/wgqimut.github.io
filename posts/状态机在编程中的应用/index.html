@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -89,9 +89,7 @@
                         
                         
                         <div class="post-content">
-                            
-
-<ol>
+                            <ol>
 <li>正则表达式（解析字符串）</li>
 <li>网络协议</li>
 <li>游戏设计(人物的行为)</li>
@@ -101,13 +99,14 @@
 <li>各种通信协议发送方和接受方传递数据时升级版，</li>
 <li>如果状态之间的转换是有概率的，就是markov 模型</li>
 </ol>
-
-<h4 id="如何设计一个优雅的状态机">如何设计一个优雅的状态机？</h4>
-
+<h4 id="heading">如何设计一个优雅的状态机？</h4>
 <ol>
-<li><p>不要用判断语句，请使用函数数组。将处理函数的下标作为状态。优势在于跳转比条件跳转更快，以及代码更优雅（所有行为都在数组定义中可以看到）</p></li>
-
-<li><p>异步回调与多线程模型之争。擅长使用异步回调的人，认为使用多线程是不懂状态机。这句话在理论上是没错，但现实中还是会不可避免的要使用多线程。主要是异步回调（状态机）模型的代码往往支离破碎，很难维护。</p></li>
+<li>
+<p>不要用判断语句，请使用函数数组。将处理函数的下标作为状态。优势在于跳转比条件跳转更快，以及代码更优雅（所有行为都在数组定义中可以看到）</p>
+</li>
+<li>
+<p>异步回调与多线程模型之争。擅长使用异步回调的人，认为使用多线程是不懂状态机。这句话在理论上是没错，但现实中还是会不可避免的要使用多线程。主要是异步回调（状态机）模型的代码往往支离破碎，很难维护。</p>
+</li>
 </ol>
 
                         </div>
@@ -254,7 +253,7 @@
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         

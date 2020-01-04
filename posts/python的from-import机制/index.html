@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -89,108 +89,97 @@
                         
                         
                         <div class="post-content">
-                            
-
-<p>在使用Python的过程中，我遇到了这么一个有关模块导入的bug。
+                            <p>在使用Python的过程中，我遇到了这么一个有关模块导入的bug。
 先说我的目录结构</p>
-
 <pre><code>core
     foo.py
     bar.py
     shit.py
     fuck.py
     __init__.py
-</code></pre>
-
-<p>（对，这就是我的目录结构😂）
+</code></pre><p>（对，这就是我的目录结构😂）
 其中fuck.py里import了shit和bar,shit和bar里都import了foo,但是import的方式是不一样的,所有文件内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># fuck.py</span>
+<span style="color:#f92672">import</span> shit
+<span style="color:#f92672">import</span> bar
 
-<pre><code class="language-python"># fuck.py
-import shit
-import bar
+<span style="color:#75715e">#...</span>
+<span style="color:#f92672">-</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>
+<span style="color:#75715e"># shit.py</span>
 
-#...
----
-# shit.py
-
-from foo import set_flag
+<span style="color:#f92672">from</span> foo <span style="color:#f92672">import</span> set_flag
 
 set_flag(True)
-# ...
----
-# bar.py
+<span style="color:#75715e"># ...</span>
+<span style="color:#f92672">-</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>
+<span style="color:#75715e"># bar.py</span>
 
-from core import foo
+<span style="color:#f92672">from</span> core <span style="color:#f92672">import</span> foo
 
-#...
+<span style="color:#75715e">#...</span>
 
-foo.get_flag(True)
+foo<span style="color:#f92672">.</span>get_flag(True)
 
-#...
----
-# foo.py
+<span style="color:#75715e">#...</span>
+<span style="color:#f92672">-</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>
+<span style="color:#75715e"># foo.py</span>
 
-if 'flag' not in globals():
-  globals()['flag'] = False
+<span style="color:#66d9ef">if</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> globals():
+  globals()[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> False
 
-def get_flag():
-  # lock
-  flag = globals()['flag']
-  # unlock
-  return flag
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_flag</span>():
+  <span style="color:#75715e"># lock</span>
+  flag <span style="color:#f92672">=</span> globals()[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span>]
+  <span style="color:#75715e"># unlock</span>
+  <span style="color:#66d9ef">return</span> flag
 
 
-def set_flag(cur_flag):
-  #lock
-  globals()['flag'] = cur_flag
-  #unlock
-</code></pre>
-
-<p>foo里边儿放了一个全局变量<code>flag</code>（同时为它配了个全局锁）,然后配有<code>get_flag</code>和<code>set_flag</code>函数，然后我在bar.py里调用了<code>get_flag</code>，在shit里调用了<code>set_flag</code>,但是我发现，我在shit.py里set的值，在bar.py里get的时候并没有得到体现，然后我就debug跟了一下，发现在shit.py里set的那个<code>flag</code>，跟bar里get的<code>flag</code>，好像并不是同一个东西啊。。。好像有两个独立的<code>flag</code>一样。</p>
-
-<p>去网上找了很多，发现是我没有对python的<code>import</code>机制了解清楚，这里涉及到“relative imports&rdquo;, &ldquo;Absolute imports&rdquo;的概念。</p>
-
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_flag</span>(cur_flag):
+  <span style="color:#75715e">#lock</span>
+  globals()[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> cur_flag
+  <span style="color:#75715e">#unlock</span>
+</code></pre></div><p>foo里边儿放了一个全局变量<code>flag</code>（同时为它配了个全局锁）,然后配有<code>get_flag</code>和<code>set_flag</code>函数，然后我在bar.py里调用了<code>get_flag</code>，在shit里调用了<code>set_flag</code>,但是我发现，我在shit.py里set的值，在bar.py里get的时候并没有得到体现，然后我就debug跟了一下，发现在shit.py里set的那个<code>flag</code>，跟bar里get的<code>flag</code>，好像并不是同一个东西啊。。。好像有两个独立的<code>flag</code>一样。</p>
+<p>去网上找了很多，发现是我没有对python的<code>import</code>机制了解清楚，这里涉及到“relative imports&rdquo;, &ldquo;Absolute imports&quot;的概念。</p>
 <blockquote>
 <p>当一个py文件被加载时，它会有一个名字，如果py作为top-level脚本，则名字就是<code>__main__</code>；如果作为module，它的名字是它所在的package或者subpackage， 和文件名用<code>.</code>连接起来形成的那个名字。</p>
 </blockquote>
-
-<p>然而，一个module的名字，并没有上面说的那么简单。一个module的名字，取决于它是怎么被import进来的。
-&gt; import一个module有这么几种方式：
-&gt; 1. <code>import sibling</code>
-&gt; 2. <code>import mypkg.sibling</code>
-&gt; 3. <code>from mypkg import sibling</code>
-&gt; 4. <code>from . import sibling</code>
-&gt;
-&gt; 第一种和第四种都是<strong>relavite imports</strong>，第四种叫<strong>explicit relative imports</strong>.</p>
-
+<p>然而，一个module的名字，并没有上面说的那么简单。一个module的名字，取决于它是怎么被import进来的。</p>
+<blockquote>
+<p>import一个module有这么几种方式：</p>
+<ol>
+<li><code>import sibling</code></li>
+<li><code>import mypkg.sibling </code></li>
+<li><code>from mypkg import sibling</code></li>
+<li><code>from . import sibling</code></li>
+</ol>
+<p>第一种和第四种都是<strong>relavite imports</strong>，第四种叫<strong>explicit relative imports</strong>.</p>
+</blockquote>
 <blockquote>
 <p>第一种写法，导入标准库一般都这么写；导入非标准库，极其不推荐这么写。
 第四种写法，有两个优点决定它是最好的写法，有一个缺点导致目前还是不要这么写为好:joy:,真是矛盾呢。两个优点是，如果module发生<strong>重命名</strong>或者<strong>移动</strong>，这种写法完全不需要修改代码；缺点是，如果这个py文件以<code>__main__</code>执行的话，这么写就会import失败。</p>
-
+</blockquote>
+<blockquote>
 <p>第二种和第三种都是package import方式，即<strong>absolute imports</strong>.这种方式目前是最推荐的写法，所有非标准库的module，都应该用这种方式去import。</p>
-
+</blockquote>
+<blockquote>
 <p>用第一种写法impo非标准库module，如果成功，它的名字就是它本身。而第三种或第四种写法，如果import成功，它的名字才是上面所说的，<strong>它所在的package或者subpackage， 和文件名用<code>.</code>连接起来形成的那个名字。</strong></p>
 </blockquote>
-
 <p>解释前面 bug，为什么看起来会有”两个独立的flag”呢？其实就是在bar和shit这两个文件<code>import</code> foo这个module的时候，用了两种不同的方式，一个是<code>from core import foo</code>，一个是<code>from foo import set_flag</code>, 这导致在bar.py里，foo这个module的名字其实是<strong>core.foo</strong>,而在shit.py里，foo的名字就是<strong>foo</strong>, 所以就会有两个flag。</p>
-
 <h4 id="one-more-thing">one more thing</h4>
-
 <ul>
-<li><p>一般每个py文件开头都加上</p>
-
-<pre><code class="language-python">from __future__ import absolute_import
-</code></pre>
-
-<p>以防止上述的第一种import方式，即隐式相对导入，强制必须使用absolute import。</p></li>
-
-<li><p>可以在每个module里加上<code>__all__</code>这个字段，当这个module被import出去时，可以用<code>__all__</code>来控制这个module里的哪些符号可以被import出去。</p></li>
-
-<li><p><a href="https://www.python.org/dev/peps/pep-0008/#source-file-encoding" title="PEP8">PEP8关于imports的编码规范</a></p></li>
+<li>一般每个py文件开头都加上</li>
 </ul>
-
-<h3 id="参考资料">参考资料</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
+</code></pre></div><p>以防止上述的第一种import方式，即隐式相对导入，强制必须使用absolute import。</p>
+<ul>
+<li>
+<p>可以在每个module里加上<code>__all__</code>这个字段，当这个module被import出去时，可以用<code>__all__</code>来控制这个module里的哪些符号可以被import出去。</p>
+</li>
+<li>
+<p><a href="https://www.python.org/dev/peps/pep-0008/#source-file-encoding" title="PEP8">PEP8关于imports的编码规范</a></p>
+</li>
+</ul>
+<h3 id="heading">参考资料</h3>
 <ul>
 <li><a href="http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912">stackoverflow import问答</a></li>
 </ul>
@@ -352,7 +341,7 @@ def set_flag(cur_flag):
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         

@@ -44,7 +44,7 @@
       <pubDate>Tue, 24 Jan 2017 00:04:36 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
-      <description>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文str ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。 中文字符正常情况下应该是这样的： &amp;gt;&amp;gt;&amp;gt; a = &#39;中文123&#39; &amp;gt;&amp;gt;&amp;gt; print(a) 中文123 但是你如果把一</description>
+      <description>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文str ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。 中文字符正常情况下应该是这样的： &amp;gt;&amp;gt;&amp;gt; a = &amp;#39;中文123&amp;#39; &amp;gt;&amp;gt;&amp;gt; print(a) 中文12</description>
     </item>
     
     <item>
@@ -53,7 +53,7 @@
       <pubDate>Thu, 19 Jan 2017 11:18:37 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/</guid>
-      <description>在本地安装rpm包的时候，碰到 error: Failed dependencies: libz.so.1(ZLIB_1.2.0)(64bit) is needed by XXX 这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种，提示你有动态库依赖但是你已经装了这个库的错误，基本就是版本问题（注意看小版本</description>
+      <description>在本地安装rpm包的时候，碰到 error: Failed dependencies: libz.so.1(ZLIB_1.2.0)(64bit) is needed by XXX 这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种**，提示你有动态库依赖但是你已经装了这个库的错误**，基本就是版本问题（注意</description>
     </item>
     
     <item>
@@ -62,7 +62,7 @@
       <pubDate>Mon, 05 Dec 2016 14:31:53 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-      <description>A wx.Frame is a top-level window. When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that wx.Window should represent a window on the screen. Unfortunately, this is not the case. A wx.Window is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a wx.Frame. This is an unfortunate inconsistency that has led to much confusion for new users. Within a frame, you&amp;rsquo;ll use a number of wxWindow sub-classes to flesh out the frame&amp;rsquo;s contents. Here are some of the more common elements you might want to put in your frame: * A wx.MenuBar, which puts a menu bar along the top of your frame. * A wx.StatusBar, which sets up an area along the bottom of</description>
+      <description>A wx.Frame is a top-level window. When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that wx.Window should represent a window on the screen. Unfortunately, this is not the case. A wx.Window is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a wx.Frame. This is an unfortunate inconsistency that has led to much confusion for new users. Within a frame, you&#39;ll use a number of wxWindow sub-classes to flesh out the frame&#39;s contents. Here are some of the more common elements you might want to put in your frame: A wx.MenuBar, which puts a menu bar along the top of your frame. A wx.StatusBar, which sets up an area along the bottom of your frame</description>
     </item>
     
     <item>
@@ -71,7 +71,7 @@
       <pubDate>Sat, 16 Apr 2016 10:36:03 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/</guid>
-      <description>对这门课的希望： 1. 能够通过学习正确的软件开发流程，并应用的实际构建过程中，以减少对时间的浪费，并保证软件的质量。 2. 能够掌握软件开发每个流程的一些工具。学会使用工具很重要。 没有实际目标，目的的学习，都是耍流氓。学和不学差不多。</description>
+      <description>对这门课的希望： 能够通过学习正确的软件开发流程，并应用的实际构建过程中，以减少对时间的浪费，并保证软件的质量。 能够掌握软件开发每个流程的一些工具。学会使用工具很重要。 没有实际目标，目的的学习，都是耍流氓。学和不学差不多。</description>
     </item>
     
     <item>
@@ -152,7 +152,7 @@
       <pubDate>Thu, 09 Jul 2015 00:56:36 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</guid>
-      <description>所以说我的博客终于搭建好了么？😂那么现在就差买一个域名了。好折腾。。。先来一个经典的hello world。 #include &amp;lt;stdio.h&amp;gt; int main(void) { printf(&amp;quot;hello, world&amp;quot;); return 0; } 黎明你好。困死了。。睡。</description>
+      <description>所以说我的博客终于搭建好了么？😂那么现在就差买一个域名了。好折腾。。。先来一个经典的hello world。 #include &amp;lt;stdio.h&amp;gt; int main(void) { printf(&amp;#34;hello, world&amp;#34;); return 0; } 黎明你好。困死了。。睡。</description>
     </item>
     
     <item>

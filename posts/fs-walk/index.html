@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,82 +96,61 @@
                         
                         
                         <div class="post-content">
-                            
-
-<p>查看文件系统, 主要有几个需求:</p>
-
+                            <p>查看文件系统, 主要有几个需求:</p>
 <ol>
 <li>我在哪儿</li>
 <li>我要去哪儿</li>
 <li>当前目录下有什么</li>
 </ol>
-
-<h3 id="1-我在哪儿">1. 我在哪儿:</h3>
-
-<pre><code class="language-sh">pwd
-</code></pre>
-
-<h3 id="2-我要去哪儿">2. 我要去哪儿:</h3>
-
+<h3 id="1-">1. 我在哪儿:</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pwd
+</code></pre></div><h3 id="2-">2. 我要去哪儿:</h3>
 <p>两种方式去, 一种是<strong>绝对路径</strong>, 一种是<strong>相对路径</strong>.</p>
-
-<pre><code class="language-shell">cd /home/grady/workspace # 绝对路径去
-cd ../scripts #相对路径去, 去往当前目录的上一级目录下的scripts目录
-</code></pre>
-
-<p><code>..</code>是一个特殊的目录, 表示当前目录的上一级目录.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /home/grady/workspace <span style="color:#75715e"># 绝对路径去</span>
+cd ../scripts <span style="color:#75715e">#相对路径去, 去往当前目录的上一级目录下的scripts目录</span>
+</code></pre></div><p><code>..</code>是一个特殊的目录, 表示当前目录的上一级目录.</p>
 <p><code>.</code>也是一个特殊目录, 表示当前目录.</p>
-
-<h3 id="3-当前路径下有什么">3. 当前路径下有什么</h3>
-
+<h3 id="3-">3. 当前路径下有什么</h3>
 <ul>
-<li><p>简单列出</p>
-
-<pre><code class="language-sh">ls #单纯的列出有哪些文件
+<li>
+<p>简单列出</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ls <span style="color:#75715e">#单纯的列出有哪些文件</span>
 ➜ ls
 a.mp4  c  d  dir1  e  m.c  s.js  test.pdf
+</code></pre></div><pre><code> 类似于Finder的这个视图:
 </code></pre>
-
-<p>类似于Finder的这个视图:
-<img src="http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270740549343.png" alt="" /></p></li>
-
-<li><p>详细列出</p></li>
-</ul>
-
+<p><img src="http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270740549343.png" alt=""></p>
+</li>
+<li>
+<p>详细列出</p>
 <p>我们还可能会这么查看:</p>
-
-<p><img src="http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270902739802.png" alt="" /></p>
-
+<p><img src="http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270902739802.png" alt=""></p>
 <p>这个可以通过使用<code>ls -ltrh</code>来做到:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"> ➜  ls -ltrh
+ total 500K
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff    <span style="color:#ae81ff">0</span> Jul <span style="color:#ae81ff">28</span> 00:00 test.pdf
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff    <span style="color:#ae81ff">0</span> Jul <span style="color:#ae81ff">28</span> 00:01 a.mp4
+ drwxr-xr-x <span style="color:#ae81ff">2</span> ilbsmart staff   <span style="color:#ae81ff">64</span> Jul <span style="color:#ae81ff">28</span> 00:01 dir1
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff    <span style="color:#ae81ff">0</span> Jul <span style="color:#ae81ff">28</span> 00:01 c
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff    <span style="color:#ae81ff">0</span> Jul <span style="color:#ae81ff">28</span> 00:01 d
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff    <span style="color:#ae81ff">0</span> Jul <span style="color:#ae81ff">28</span> 00:01 e
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff    <span style="color:#ae81ff">0</span> Jul <span style="color:#ae81ff">28</span> 00:01 m.c
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff    <span style="color:#ae81ff">0</span> Jul <span style="color:#ae81ff">28</span> 00:01 s.js
+ -rw-r--r-- <span style="color:#ae81ff">1</span> ilbsmart staff 500K Jul <span style="color:#ae81ff">28</span> 00:08 big_one
 
-<pre><code class="language-sh">   ➜  ls -ltrh
-   total 500K
-   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:00 test.pdf
-   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 a.mp4
-   drwxr-xr-x 2 ilbsmart staff   64 Jul 28 00:01 dir1
-   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 c
-   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 d
-   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 e
-   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 m.c
-   -rw-r--r-- 1 ilbsmart staff    0 Jul 28 00:01 s.js
-   -rw-r--r-- 1 ilbsmart staff 500K Jul 28 00:08 big_one
-
-  # -l 显示更详细的信息
-  # -t是指按照时间从最新到最老来排序
-  # -r reserve sort, 有的时候目录下文件太多, 我们更希望最后显示的是最新的文件, 也就是说, 从最老到最新排序, 可以加上这个参数
-  # -h 以人类可以看懂的方式显示size, 默认其实是以字节数来显示每个entry的大小的.
-</code></pre>
-
-<ul>
-<li><p>更多</p>
-
+<span style="color:#75715e"># -l 显示更详细的信息</span>
+<span style="color:#75715e"># -t是指按照时间从最新到最老来排序</span>
+<span style="color:#75715e"># -r reserve sort, 有的时候目录下文件太多, 我们更希望最后显示的是最新的文件, 也就是说, 从最老到最新排序, 可以加上这个参数</span>
+<span style="color:#75715e"># -h 以人类可以看懂的方式显示size, 默认其实是以字节数来显示每个entry的大小的.</span>
+</code></pre></div></li>
+<li>
+<p>更多</p>
 <p>常用的还有</p>
-
 <ul>
 <li><code>ls -R</code>: 递归显示当前目录下所有目录下的文件.</li>
 <li><code>ls *.js</code> 只显示后缀是<code>.js</code>的文件</li>
-</ul></li>
+</ul>
+</li>
 </ul>
 
                         </div>
@@ -318,7 +297,7 @@ a.mp4  c  d  dir1  e  m.c  s.js  test.pdf
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         

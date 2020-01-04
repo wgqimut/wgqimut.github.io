@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -97,22 +97,16 @@
                         
                         <div class="post-content">
                             <p>在本地安装rpm包的时候，碰到</p>
-
-<pre><code class="language-shell">error: Failed dependencies:
-	libz.so.1(ZLIB_1.2.0)(64bit) is needed by XXX
-</code></pre>
-
-<p>这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种<strong>，提示你有动态库依赖但是你已经装了这个库的错误</strong>，基本就是版本问题（注意看小版本号）。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">error: Failed dependencies:
+	libz.so.1<span style="color:#f92672">(</span>ZLIB_1.2.0<span style="color:#f92672">)</span><span style="color:#f92672">(</span>64bit<span style="color:#f92672">)</span> is needed by XXX
+</code></pre></div><p>这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种**，提示你有动态库依赖但是你已经装了这个库的错误**，基本就是版本问题（注意看小版本号）。</p>
 <p>另外，在排查问题的过程中，发现两个有用的命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum localinstall &lt;rpm_package_name&gt;  <span style="color:#75715e"># 代替rpm -ivh 来安装本地rpm包，可以让yum去自动帮你下载本地没有的依赖</span>
 
-<pre><code class="language-shell">yum localinstall &lt;rpm_package_name&gt;  # 代替rpm -ivh 来安装本地rpm包，可以让yum去自动帮你下载本地没有的依赖
-
-ldconfig -p | grep &lt;动态库名称&gt;  # 查看动态库的本地路径
-#eg:
+ldconfig -p | grep &lt;动态库名称&gt;  <span style="color:#75715e"># 查看动态库的本地路径</span>
+<span style="color:#75715e">#eg:</span>
 ldconfig -p | grep libz.so.1
-</code></pre>
-
+</code></pre></div>
                         </div>
 
                         
@@ -257,7 +251,7 @@ ldconfig -p | grep libz.so.1
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         

@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -89,44 +89,35 @@
                         
                         
                         <div class="post-content">
-                            
-
-<p>A <code>wx.Frame</code> is a top-level window.</p>
-
+                            <p>A <code>wx.Frame</code> is a top-level window.</p>
 <p>When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that <code>wx.Window</code> should represent a window on the screen. Unfortunately, this is not the case. A <code>wx.Window</code> is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a <code>wx.Frame</code>. This is an unfortunate inconsistency that has led to much confusion for new users.</p>
-
-<p>Within a frame, you&rsquo;ll use a number of <code>wxWindow</code> sub-classes to flesh out the frame&rsquo;s contents. Here are some of the more common elements you might want to put in your frame:
-* A <code>wx.MenuBar</code>, which puts a menu bar along the top of your frame.
-* A <code>wx.StatusBar</code>, which sets up an area along the bottom of your frame for displaying status messages, etc.
-* A <code>wx.ToolBar</code>, which puts a toolbar in your frame.
-* Sub-classes of <code>wx.Control</code>. These are objects which represent user interface widgets (ie, visual elements which display data and/or process user input). Common examples of <code>wx.Control</code> objects include <code>wx.Button</code>, <code>wx.StaticText</code>, <code>wx.TextCtrl</code> and <code>wx.ComboBox</code>.
-* A <code>wx.Panel</code>, which is a container to hold your various <code>wx.Control</code> objects. Putting your <code>wx.Control</code> objects inside a <code>wx.Panel</code> means that the user can tab from one UI widget to the next.</p>
-
+<p>Within a frame, you'll use a number of <code>wxWindow</code> sub-classes to flesh out the frame's contents. Here are some of the more common elements you might want to put in your frame:</p>
+<ul>
+<li>A <code>wx.MenuBar</code>, which puts a menu bar along the top of your frame.</li>
+<li>A <code>wx.StatusBar</code>, which sets up an area along the bottom of your frame for displaying status messages, etc.</li>
+<li>A <code>wx.ToolBar</code>, which puts a toolbar in your frame.</li>
+<li>Sub-classes of <code>wx.Control</code>. These are objects which represent user interface widgets (ie, visual elements which display data and/or process user input). Common examples of <code>wx.Control</code> objects include <code>wx.Button</code>, <code>wx.StaticText</code>, <code>wx.TextCtrl</code> and <code>wx.ComboBox</code>.</li>
+<li>A <code>wx.Panel</code>, which is a container to hold your various <code>wx.Control</code> objects. Putting your <code>wx.Control</code> objects inside a <code>wx.Panel</code> means that the user can tab from one UI widget to the next.</li>
+</ul>
 <p>All visual elements (wxWindow objects and their subclasses) can hold sub-elements. Thus, for example, a <code>wx.Frame</code> might hold a number of <code>wx.Panel</code> objects, which in turn hold a number of <code>wx.Button</code>, <code>wx.StaticText</code> and <code>wx.TextCtrl</code> objects,</p>
-
 <p>A sizer is a way of laying out windows, it is not a window in itself.</p>
-
 <blockquote>
 <p>what is panel？</p>
-
-<p>&ldquo;A panel is a window on which controls are placed. It is usually placed within a frame. It contains minimal extra functionality over and above its parent class <code>wxWindow</code>; its main purpose is to be similar in appearance and functionality to a dialog, but with the flexibility of having any window as a parent.&ldquo;, in fact, it is a simple window used as a (grayed) background for other objects which are meant to deal with data entry. These are generally known as Controls or Widgets.</p>
 </blockquote>
-
+<blockquote>
+<p>&ldquo;A panel is a window on which controls are placed. It is usually placed within a frame. It contains minimal extra functionality over and above its parent class <code>wxWindow</code>; its main purpose is to be similar in appearance and functionality to a dialog, but with the flexibility of having any window as a parent.&quot;, in fact, it is a simple window used as a (grayed) background for other objects which are meant to deal with data entry. These are generally known as Controls or Widgets.</p>
+</blockquote>
 <p>几乎所有的<code>wx.Control</code>貌似都有<code>label</code>啊，<code>pos</code>啊，<code>style</code>啊这几个参数。</p>
-
 <h4 id="improve-the-layout">Improve the layout</h4>
-
-<p>WxPython has very rich vocabulary of objects to lay out controls.
-* <code>wx.BoxSizer</code> is the most common and simple layout object but it permits a vast range of possibilities. Its role is roughly to arrange a set of controls in a line or in a row and rearrange them when needed (i.e. when the global size is changed).
-* <code>wx.GridSizer</code> and <code>wx.FlexGridSizer</code> are two very important layout tools. They arrange the controls in a tabular layout.</p>
-
+<p>WxPython has very rich vocabulary of objects to lay out controls.</p>
+<ul>
+<li><code>wx.BoxSizer</code> is the most common and simple layout object but it permits a vast range of possibilities. Its role is roughly to arrange a set of controls in a line or in a row and rearrange them when needed (i.e. when the global size is changed).</li>
+<li><code>wx.GridSizer</code> and <code>wx.FlexGridSizer</code> are two very important layout tools. They arrange the controls in a tabular layout.</li>
+</ul>
 <p>Applications can be created for four different areas.
-<img src="http://zetcode.com/img/gui/wxpython/areas.jpg" alt="Application areas" /></p>
-
+<img src="http://zetcode.com/img/gui/wxpython/areas.jpg" alt="Application areas"></p>
 <p>wxPython consists of the five basic modules.</p>
-
-<p><img src="http://zetcode.com/img/gui/wxpython/modules.jpg" alt="wxpython modules" /></p>
-
+<p><img src="http://zetcode.com/img/gui/wxpython/modules.jpg" alt="wxpython modules"></p>
 <ul>
 <li>The <strong>Windows</strong> module consists of various windows that form an application, for instance a Panel, a Dialog, a Frame, or a Scrolled Window.</li>
 <li><strong>The Graphics Device Interface (GDI)</strong> is a set of classes used for drawing onto the widgets. This module contains classes for manipulation of Fonts, Colors, Brushes, Pens or Images.</li>
@@ -134,7 +125,6 @@
 <li>The <strong>Misc</strong> module contains of various other classes and module functions. These classes are used for logging, application configuration, system settings, working with display or joystick.</li>
 <li><strong>Controls</strong> module provides the common widgets found in graphical applications. For example a Button, a Toolbar, or a Notebook. Widgets are called controls under Windows OS.</li>
 </ul>
-
 <p><strong>Widgets</strong> are essential building blocks of a GUI application. Under Windows widgets are calles <strong>controls</strong></p>
 
                         </div>
@@ -300,7 +290,7 @@
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         

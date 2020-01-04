@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,95 +96,60 @@
                         
                         
                         <div class="post-content">
-                            
-
-<p>git所有的操作, 其实都是在跟<code>commit</code>打交道:</p>
-
+                            <p>git所有的操作, 其实都是在跟<code>commit</code>打交道:</p>
 <p>你<code>stage</code>你的<code>commit</code>, 创建一个<code>commit,</code> 查看之前的<code>commit</code>, 把<code>commit</code>在不同的branch之间挪动, <code>push</code>你的<code>commit</code>等等.</p>
-
 <p>那么, 怎么指定<code>commit</code>就很重要.</p>
-
-<h4 id="1-通过-commit-hash-来指定">1. 通过<code>commit hash</code>来指定.</h4>
-
+<h4 id="1-commit-hash">1. 通过<code>commit hash</code>来指定.</h4>
 <p>一个<code>commit</code>跟一个<code>commit hash</code>是一一对应的, 这是最直接的指定<code>commit</code>的方式.</p>
-
-<h4 id="2-通过-refs">2. 通过<code>refs</code></h4>
-
+<h4 id="2-refs">2. 通过<code>refs</code></h4>
 <p><code>refs</code>是一种间接指定<code>commit</code>的方式, 相当于<code>commit hash</code>的别名, 它更加对人类友好, 不过, 不是所有的<code>commit hash</code>都有别名(也就是<code>refs</code>)的. 通常你见到的branch name, 比如<code>master</code>, 其实就是一种<code>ref</code>.</p>
-
-<h5 id="1-一般的ref">1. 一般的ref</h5>
-
+<h5 id="1-ref">1. 一般的ref</h5>
 <p>要知道你的repo有多少<code>refs</code>, 可以在<code>.git/refs</code>这个目录里看到类似下面的目录树.</p>
-
 <blockquote>
 <p>如果你的git repo是一个大型repo, 很可能你的refs被压缩成一个叫.git/packed-refs的文件, 而不是在.git/refs目录下.</p>
 </blockquote>
-
-<pre><code class="language-sh">heads/ # 这个目录里存放了你所有的local branch
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">heads/ <span style="color:#75715e"># 这个目录里存放了你所有的local branch</span>
 	master
 	some-feature
-remotes/ # 这个目录下存放的是你所有fetch到本地的remote branch
+remotes/ <span style="color:#75715e"># 这个目录下存放的是你所有fetch到本地的remote branch</span>
 	origin/
 		master
-tags/ # 这个目录下是你所有的tag
+tags/ <span style="color:#75715e"># 这个目录下是你所有的tag</span>
 	v0.9
-</code></pre>
-
-<p>使用一个ref来指定一个commit很简单, 比如</p>
-
-<pre><code class="language-sh">git show master
-# 这里的master, 只是refs/heads/master的简写, 正常情况下, 我们简写refs就可以, 除非tags目录下也有一个master的tag存在, 这时候就不能简写master,那样就无法区分是refs/heads/master, 还是refs/tags/master.
-</code></pre>
-
-<h5 id="2-特殊的ref">2. 特殊的ref</h5>
-
+</code></pre></div><p>使用一个ref来指定一个commit很简单, 比如</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git show master
+<span style="color:#75715e"># 这里的master, 只是refs/heads/master的简写, 正常情况下, 我们简写refs就可以, 除非tags目录下也有一个master的tag存在, 这时候就不能简写master,那样就无法区分是refs/heads/master, 还是refs/tags/master.</span>
+</code></pre></div><h5 id="2-ref">2. 特殊的ref</h5>
 <p>除了<code>.git/refs</code>(或者<code>.git/packed-refs</code>)下的refs, 还有一些<strong>特殊的refs</strong>, 定义在<code>.git</code>这个目录下, 说几个常见的:</p>
-
 <ul>
 <li><code>HEAD</code>: 当然checkout的commit/branch</li>
 <li><code>FETCH_HEAD</code>: 最近一次从远端 fetch的branch</li>
 <li><code>MERGE_HEAD</code>: 你正在merge到当前brach的那个commit.</li>
 </ul>
-
-<h5 id="3-相对refs">3. 相对refs</h5>
-
+<h5 id="3-refs">3. 相对refs</h5>
 <p>你可以指定通过一个<code>commit</code>来指定另一个<code>commit</code>:</p>
-
 <ul>
-<li><code>~</code>这个字符, 可以帮助你指定你当前commit的parent commit.</li>
-</ul>
-
+<li>
+<p><code>~</code>这个字符, 可以帮助你指定你当前commit的parent commit.</p>
 <p><code>git show HEAD~1</code>: HEAD的上一个commit.</p>
-
-<ul>
-<li>如果发生过merge, 那么一个commit, 就有可能有两个parent, 这个时候, 如何指定另一个parent呢? <code>^</code>字符, 可以帮你:</li>
-</ul>
-
+</li>
+<li>
+<p>如果发生过merge, 那么一个commit, 就有可能有两个parent, 这个时候, 如何指定另一个parent呢? <code>^</code>字符, 可以帮你:</p>
 <p><code>git show HEAD^2</code></p>
-
+</li>
+</ul>
 <p><code>~</code>跟<code>^</code>的区别, 下面这张图你可以看到.</p>
-
-<p><img src="https://wac-cdn.atlassian.com/dam/jcr:cb2ce970-3ef4-4eda-96a9-fe990745f5a7/02.svg?cdnVersion=kc" alt="Accessing commits using relative refs" /></p>
-
+<p><img src="https://wac-cdn.atlassian.com/dam/jcr:cb2ce970-3ef4-4eda-96a9-fe990745f5a7/02.svg?cdnVersion=kc" alt="Accessing commits using relative refs"></p>
 <h5 id="4-reflog">4. Reflog</h5>
-
 <p>你在local repo上做的所有关于commit hash的历史操作, git其实都为你保留在<code>reflog</code>里.  可以通过<code>git reflog</code>来查看:</p>
-
-<pre><code class="language-sh">5a9f9aa25 (HEAD -&gt; xtao, origin/xtao, origin/HEAD) HEAD@{0}: reset: moving to origin/xtao
-53ca49f77 HEAD@{1}: cherry-pick: change dht log level
-c83c124b2 HEAD@{2}: cherry-pick: delete unecessary code to fix make error.
-</code></pre>
-
-<p>如果你要恢复某一个历史commit hash, 你可以通过<code>HEAD@{&lt;n&gt;}</code>这样的语法, 来指定在reflog里的一个commit hash, 比如:</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">5a9f9aa25 <span style="color:#f92672">(</span>HEAD -&gt; xtao, origin/xtao, origin/HEAD<span style="color:#f92672">)</span> HEAD@<span style="color:#f92672">{</span>0<span style="color:#f92672">}</span>: reset: moving to origin/xtao
+53ca49f77 HEAD@<span style="color:#f92672">{</span>1<span style="color:#f92672">}</span>: cherry-pick: change dht log level
+c83c124b2 HEAD@<span style="color:#f92672">{</span>2<span style="color:#f92672">}</span>: cherry-pick: delete unecessary code to fix make error.
+</code></pre></div><p>如果你要恢复某一个历史commit hash, 你可以通过<code>HEAD@{&lt;n&gt;}</code>这样的语法, 来指定在reflog里的一个commit hash, 比如:</p>
 <p><code>git checkout HEAD@{1}</code></p>
-
-<h4 id="总结">总结</h4>
-
+<h4 id="heading">总结</h4>
 <p>通过了解git如何引用一个commit, 我们其实了解到了很多git内部的机制, 比如它是如何存储branch信息和tag信息的, 这会帮助我们更好的理解平时使用的git 命令.</p>
-
 <p>有的时候, 我们还需要指定一定范围内的commit, 比如当你想把一个branch上最近提交的几个commit, 提交到另一个branch上, 该怎么做呢? 敬请期待下一篇啦.</p>
-
 <p>参考: <a href="https://www.atlassian.com/git/tutorials/refs-and-the-reflog">https://www.atlassian.com/git/tutorials/refs-and-the-reflog</a></p>
 
                         </div>
@@ -331,7 +296,7 @@ c83c124b2 HEAD@{2}: cherry-pick: delete unecessary code to fix make error.
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         

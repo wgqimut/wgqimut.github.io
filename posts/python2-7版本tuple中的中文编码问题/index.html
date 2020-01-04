@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,91 +96,58 @@
                         
                         
                         <div class="post-content">
-                            
-
-<p>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文<code>str</code> ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。</p>
-
+                            <p>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文<code>str</code> ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。</p>
 <p>中文字符正常情况下应该是这样的：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; a = '中文123'
-&gt;&gt;&gt; print(a)
-中文123
-</code></pre>
-
-<p>但是你如果把一个包含中文的字符放到<code>tuple</code> 里面，却会变成这样：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; a = tuple(['中文123', 'hello'])
-&gt;&gt;&gt; print(a)
-('\xe4\xb8\xad\xe6\x96\x87123', 'hello') # 这里按理说应该显示的是('中文123', 'hello')
-</code></pre>
-
-<p>中文字符显示成了编码后的十六进制形式，也就是说，<code>\x</code> 这个python的保留字符(用来表示它后面两个字符是十六进制值)，并没有得到“正确的”解析，实际上这里是把<code>'\xe4\xb8\xad\xe6\x96\x87'</code> 当成一个<code>raw strings</code> 来处理，这里面的<code>\x</code> 没有任何特别的意思，就是字面的<code>\x</code> ，所有它后面十六进制数也都只是表面上的意思。</p>
-
-<h4 id="为什么会这样">为什么会这样？</h4>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> a <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">中文123</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(a)
+<span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#ae81ff">123</span>
+</code></pre></div><p>但是你如果把一个包含中文的字符放到<code>tuple</code> 里面，却会变成这样：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> a <span style="color:#f92672">=</span> tuple([<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">中文123</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">hello</span><span style="color:#e6db74">&#39;</span>])
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(a)
+(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xe4</span><span style="color:#ae81ff">\xb8</span><span style="color:#ae81ff">\xad</span><span style="color:#ae81ff">\xe6</span><span style="color:#ae81ff">\x96</span><span style="color:#ae81ff">\x87</span><span style="color:#e6db74">123</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">hello</span><span style="color:#e6db74">&#39;</span>) <span style="color:#75715e"># 这里按理说应该显示的是(&#39;中文123&#39;, &#39;hello&#39;)</span>
+</code></pre></div><p>中文字符显示成了编码后的十六进制形式，也就是说，<code>\x</code> 这个python的保留字符(用来表示它后面两个字符是十六进制值)，并没有得到“正确的”解析，实际上这里是把<code>'\xe4\xb8\xad\xe6\x96\x87'</code> 当成一个<code>raw strings</code> 来处理，这里面的<code>\x</code> 没有任何特别的意思，就是字面的<code>\x</code> ，所有它后面十六进制数也都只是表面上的意思。</p>
+<h4 id="heading">为什么会这样？</h4>
 <p><code>tuple</code> 应该是对它里面的<code>str</code> 做了一个<code>encode('string_escape')</code> 的操作，这个操作同<code>r''</code>等价，意思是生成一个<code>raw strings</code>，官方的解释是<strong>Produce a string that is suitable as string literal in Python source code</strong>, 我们做个实验：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; a = '中文123'
-&gt;&gt;&gt; a
-'\xe4\xb8\xad\xe6\x96\x87123'
-&gt;&gt;&gt; print(a)
-中文123
-&gt;&gt;&gt; b = a.encode('string_escape')
-&gt;&gt;&gt; b
-'\\xe4\\xb8\\xad\\xe6\\x96\\x87123'
-&gt;&gt;&gt; print(b)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> a <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">中文123</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> a
+<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\xe4</span><span style="color:#ae81ff">\xb8</span><span style="color:#ae81ff">\xad</span><span style="color:#ae81ff">\xe6</span><span style="color:#ae81ff">\x96</span><span style="color:#ae81ff">\x87</span><span style="color:#e6db74">123</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(a)
+<span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#ae81ff">123</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> b <span style="color:#f92672">=</span> a<span style="color:#f92672">.</span>encode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">string_escape</span><span style="color:#e6db74">&#39;</span>)
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> b
+<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">xe4</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">xb8</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">xad</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">xe6</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">x96</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">x87123</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(b)
 \xe4\xb8\xad\xe6\x96\x87123
-</code></pre>
-
-<p>嗯，一切都清楚了，那么问题来了，<code>tuple</code> 为啥要这么干呢&hellip;暂时不知道&hellip;</p>
-
-<h4 id="解决办法">解决办法</h4>
-
+</code></pre></div><p>嗯，一切都清楚了，那么问题来了，<code>tuple</code> 为啥要这么干呢&hellip;暂时不知道&hellip;</p>
+<h4 id="heading-1">解决办法</h4>
 <p>对字符做<code>decode('string_escape')</code>就可以了。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; c = b.decode('string_escape')
-&gt;&gt;&gt; print(c)
-中文123
-</code></pre>
-
-<h4 id="总结">总结</h4>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> c <span style="color:#f92672">=</span> b<span style="color:#f92672">.</span>decode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">string_escape</span><span style="color:#e6db74">&#39;</span>)
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(c)
+<span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">文</span><span style="color:#ae81ff">123</span>
+</code></pre></div><h4 id="heading-2">总结</h4>
 <p>首先，<code>tuple</code> 会它里面的中文字符做一个<code>r''</code> 的转换，这是个坑，踩过了就不说了。</p>
-
 <p>其次，知道了<code>r''</code>的函数写法是这样的: <code>encode('string_escape')</code> ，也就是说，从此以后，可以对一个变量进行<code>r''</code> 操作啦。</p>
-
-<h4 id="拓展">拓展</h4>
-
+<h4 id="heading-3">拓展</h4>
 <p>其实还有一个<code>unicode_escape</code> 的编码方式</p>
-
 <blockquote>
 <p>官方的解释是Produce a string that is suitable as Unicode literal in Python source code.</p>
 </blockquote>
-
 <p>也就是说，将<code>\u</code> 这个保留字符按照字面意思去解释，也就是<code>raw unicode</code>话。</p>
-
 <p><strong><code>string_escape</code> 和<code>unicode_escape</code> 都是将转义字符<code>raw</code> 话，将它们当做普通字符来看待，只不过前者只能针对<code>str</code> （编码后的字符）进行操作，后者是针对<code>unicode</code>字符进行操作。</strong></p>
-
-<pre><code class="language-python">&gt;&gt;&gt; a = u'中文'
-&gt;&gt;&gt; a
-u'\u4e2d\u6587'
-&gt;&gt;&gt; print(a)
-中文
-&gt;&gt;&gt; b = a.encode('unicode_escape')
-'\\u4e2d\\u6587'
-&gt;&gt;&gt; print(b)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> a <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">中文</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> a
+<span style="color:#e6db74">u</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\u4e2d</span><span style="color:#ae81ff">\u6587</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(a)
+<span style="color:#960050;background-color:#1e0010">中</span><span style="color:#960050;background-color:#1e0010">文</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> b <span style="color:#f92672">=</span> a<span style="color:#f92672">.</span>encode(<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">unicode_escape</span><span style="color:#e6db74">&#39;</span>)
+<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">u4e2d</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">u6587</span><span style="color:#e6db74">&#39;</span>
+<span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(b)
 \u4e2d\u6587
-</code></pre>
-
-<h4 id="题外话">题外话</h4>
-
+</code></pre></div><h4 id="heading-4">题外话</h4>
 <p>是时候转Python3了。</p>
-
-<h4 id="参考链接">参考链接：</h4>
-
+<h4 id="heading-5">参考链接：</h4>
 <p><a href="https://docs.python.org/2.7/reference/lexical_analysis.html#string-literals">python的转义字符</a></p>
-
-<p><a href="https://docs.python.org/2/library/codecs.html"><code>unicode_escape</code>和`string_escape</a>`</p>
+<p>[<code>unicode_escape</code>和<code>string_escape](https://docs.python.org/2/library/codecs.html)</code></p>
 
                         </div>
 
@@ -347,7 +314,7 @@ u'\u4e2d\u6587'
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         

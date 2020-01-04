@@ -35,7 +35,7 @@
       <pubDate>Thu, 19 Jan 2017 11:18:37 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/</guid>
-      <description>在本地安装rpm包的时候，碰到 error: Failed dependencies: libz.so.1(ZLIB_1.2.0)(64bit) is needed by XXX 这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种，提示你有动态库依赖但是你已经装了这个库的错误，基本就是版本问题（注意看小版本</description>
+      <description>在本地安装rpm包的时候，碰到 error: Failed dependencies: libz.so.1(ZLIB_1.2.0)(64bit) is needed by XXX 这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种**，提示你有动态库依赖但是你已经装了这个库的错误**，基本就是版本问题（注意</description>
     </item>
     
   </channel>

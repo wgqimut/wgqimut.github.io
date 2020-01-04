@@ -3,7 +3,7 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.59.1" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -96,36 +96,21 @@
                         
                         
                         <div class="post-content">
-                            
-
-<p>首先是rrdtool这个工具的介绍：
+                            <p>首先是rrdtool这个工具的介绍：
 <a href="http://zhaochj.blog.51cto.com/368705/1657026">rrd比较好的介绍</a>以及
 <a href="http://qushouxichuan.com/blog/article/60">rrdtool的python实例</a></p>
-
 <p>其次，怎样才能把rrdtool生成的图弄得漂亮一些呢，默认的图太丑太不fashion了。</p>
-
-<h4 id="centos上安装rrdtool">CentOS上安装rrdtool</h4>
-
+<h4 id="centosrrdtool">CentOS上安装rrdtool</h4>
 <p>正常情况下，当然是用yum安装:</p>
-
 <pre><code>yum install rrdtool rrdtool-devel
-</code></pre>
-
-<p>然后</p>
-
+</code></pre><p>然后</p>
 <pre><code>pip install rrdtool
-</code></pre>
-
-<p>由于网管系统是基于Python2.7开发的，centos6.5默认的python版本是2.6.6，手动升级到python2.7之后，再安装rrdtool的python支持（<code>pip install rrdtool</code>), 在python使用，就会报错。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; import rrdtool
+</code></pre><p>由于网管系统是基于Python2.7开发的，centos6.5默认的python版本是2.6.6，手动升级到python2.7之后，再安装rrdtool的python支持（<code>pip install rrdtool</code>), 在python使用，就会报错。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">import</span> rrdtool
 Traceback (most recent call last):
- File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
-ImportError: /usr/local/lib/python2.7/site-packages/rrdtoolmodule.so: undefined symbol: rrd_flushcached
-</code></pre>
-
-<p>解决方案是：用rrdtool源码重新编译安装rrdtool（而不是通过yum源去安装rpm包）。</p>
-
+ File <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">&lt;stdin&gt;</span><span style="color:#e6db74">&#34;</span>, line <span style="color:#ae81ff">1</span>, <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+<span style="color:#a6e22e">ImportError</span>: <span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>local<span style="color:#f92672">/</span>lib<span style="color:#f92672">/</span>python2<span style="color:#f92672">.</span><span style="color:#ae81ff">7</span><span style="color:#f92672">/</span>site<span style="color:#f92672">-</span>packages<span style="color:#f92672">/</span>rrdtoolmodule<span style="color:#f92672">.</span>so: undefined symbol: rrd_flushcached
+</code></pre></div><p>解决方案是：用rrdtool源码重新编译安装rrdtool（而不是通过yum源去安装rpm包）。</p>
 <pre><code>#由于rrdtool官网有时候会连不上，而且centos默认的rrdtool版本是1.3.8，所有我就自建下载地址
 wget http://oss.oetiker.ch/rrdtool/pub/rrdtool-1.3.8.tar.gz
 tar zxvf rrdtool-1.3.8.tar.gz
@@ -137,28 +122,18 @@ make install
 
 # 安装rrdtool-python
 pip install rrdtool
-</code></pre>
-
-<p>安装后如果遇到下面这个问题：</p>
-
+</code></pre><p>安装后如果遇到下面这个问题：</p>
 <pre><code>&gt;&gt;&gt; import rrdtool
 Traceback (most recent call last):
   File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
 ImportError: librrd.so.4: cannot open shared object file: No such file or directory
 &gt;&gt;&gt;
 
-</code></pre>
-
-<p>解决办法是将rrdtool库做软链接到/usr/lib</p>
-
+</code></pre><p>解决办法是将rrdtool库做软链接到/usr/lib</p>
 <pre><code>ln -s /usr/local/lib/librrd* /usr/lib
 ldconfig
-</code></pre>
-
-<h5 id="安装rrdtool-php">安装rrdtool-php</h5>
-
+</code></pre><h5 id="rrdtool-php">安装rrdtool-php</h5>
 <p>环境：php版本5.3.3，rrdtool版本1.3.8</p>
-
 <pre><code>wget https://pecl.php.net/get/rrd-1.1.3.tgz
 tar xvf rrd-1.1.3.tgz
 cd rrd-1.1.3
@@ -166,11 +141,8 @@ phpize # 是用来扩展php扩展模块的，通过phpize可以建立php的外�
 ./configure
 make
 make install
-</code></pre>
-
-<p>在/etc/php.d/里添加rrd.ini，仿照其他的ini文件，填上内容。重启httpd服务，完事。
+</code></pre><p>在/etc/php.d/里添加rrd.ini，仿照其他的ini文件，填上内容。重启httpd服务，完事。
 哦， 不对，<code>php -m</code>看一下rrd模块加载进去没，如果有rrd则完事。</p>
-
 <p>附录：<a href="https://www.phparch.com/2011/02/creating-rrd-graphs-in-php/">php的rrdtool教程</a></p>
 
                         </div>
@@ -317,7 +289,7 @@ make install
 </div>
 <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://wgqimut.github.io/">比克王国 By </a>.
+        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
         
