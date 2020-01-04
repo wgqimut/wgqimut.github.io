@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.61.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,10 +10,10 @@
     <meta property="og:title" content="python2.7版本tuple中的中文编码问题 - 比克王国">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2017-01-24T00:04:36&#43;08:00">
+    <meta property="article:published_time" content='2017-01-24T00:04:36&#43;08:00'>
         
         
-    <meta property="article:modified_time" content="2017-01-24T00:04:36&#43;08:00">
+    <meta property="article:modified_time" content='2017-01-24T00:04:36&#43;08:00'>
         
     <meta name="Keywords" content="">
     <meta name="description" content="python2.7版本tuple中的中文编码问题">
@@ -23,11 +22,8 @@
     <meta property="og:url" content="https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-        <link rel="stylesheet" href="/css/prism.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -37,8 +33,9 @@
     
 </head>
 
+
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -65,38 +62,38 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">python2.7版本tuple中的中文编码问题</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2017年1月24日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://wgqimut.github.io/categories/programming'>Programming</a></span>
+            
+        </div>
         
         
-    <div class="container">
-        <div class="col-group">
-
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    <article class="post">
-                        <header>
-                            <h1 class="post-title">python2.7版本tuple中的中文编码问题</h1>
-                        </header>
-                        <date class="post-meta meta-date">
-                            2017年1月24日
-                        </date>
-                        
-                        <div class="post-meta">
-                            <span>|</span>
-                            
-                                <span class="meta-category"><a href="https://wgqimut.github.io/categories/programming">Programming</a></span>
-                            
-                        </div>
-                        
-                        
-                        <div class="post-meta">
-                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
-                        </div>
-                        
-                        
-                        <div class="post-content">
-                            <p>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文<code>str</code> ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。</p>
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文<code>str</code> ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。</p>
 <p>中文字符正常情况下应该是这样的：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> a <span style="color:#f92672">=</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">中文123</span><span style="color:#e6db74">&#39;</span>
 <span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">print</span>(a)
@@ -149,9 +146,9 @@
 <p><a href="https://docs.python.org/2.7/reference/lexical_analysis.html#string-literals">python的转义字符</a></p>
 <p>[<code>unicode_escape</code>和<code>string_escape](https://docs.python.org/2/library/codecs.html)</code></p>
 
-                        </div>
+        </div>
 
-                        
+        
 <div class="post-archive">
     <ul class="post-copyright">
         <li><strong>原文作者：</strong><a rel="author" href="https://wgqimut.github.io/">比克王国</a></li>
@@ -163,7 +160,7 @@
 
 
 
-                        
+        
 
 <div class="post-archive">
     <h2>See Also</h2>
@@ -183,26 +180,28 @@
 </div>
 
 
-                        <div class="post-meta meta-tags">
-                            
-                            <ul class="clearfix">
-                                
-                                <li><a href="https://wgqimut.github.io/tags/python">python</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    </article>
-                    
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://wgqimut.github.io/tags/python'>python</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
     
 
     
     
+</div>
+
                 </div>
-            </div>
-            <div id="secondary">
+
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://wgqimut.github.io/">
@@ -309,14 +308,14 @@
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
         &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
         
     </div>
 </footer>
@@ -324,11 +323,6 @@
 
     
     <script type="text/javascript">
-        
-        (function () {
-            $("pre code").parent().addClass("line-numbers")
-        }());
-
         window.MathJax = {
             tex2jax: {
                 inlineMath: [['$', '$']],
@@ -336,12 +330,11 @@
                 }
             };
     </script>
-    <script type="text/javascript" src="/js/prism.js" async="true"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 
 <a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -351,4 +344,5 @@
 
 
 </body>
+
 </html>
