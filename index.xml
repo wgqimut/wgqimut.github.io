@@ -6,10 +6,19 @@
     <description>Recent content on 比克王国</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-ZH</language>
-    <lastBuildDate>Sat, 16 Nov 2019 18:46:37 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 04 Jan 2020 16:41:57 +0800</lastBuildDate>
     
 	<atom:link href="https://wgqimut.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Git同步</title>
+      <link>https://wgqimut.github.io/posts/git-remote/</link>
+      <pubDate>Sat, 04 Jan 2020 16:41:57 +0800</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/git-remote/</guid>
+      <description>git 的分布式设计, 使得每个开发者的 local 都有 remote repo 的一份 copy , 我们在这份 copy 上提交, 创建新 branch, 最终, 我们会把我们在 local 的改动, 同步到远程的 repo; 当别人更新了远程 repo, 我们还要从远程 repo 同步这些改动到自己的 local. 这一系列的操作, 我们可以统称为git的同步, 同步发生在 local repo 和 remote repo 之间, 这篇文章就详细说说同步的事情.</description>
+    </item>
     
     <item>
       <title>跟远程机器打交道之认识ssh</title>

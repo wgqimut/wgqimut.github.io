@@ -3,28 +3,33 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://wgqimut.github.io/categories/</loc>
+    <lastmod>2020-01-04T16:41:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wgqimut.github.io/categories/cmd/</loc>
+    <lastmod>2020-01-04T16:41:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://wgqimut.github.io/posts/git-remote/</loc>
+    <lastmod>2020-01-04T16:41:57+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://wgqimut.github.io/posts/</loc>
-    <lastmod>2019-11-16T18:46:37+08:00</lastmod>
+    <lastmod>2020-01-04T16:41:57+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://wgqimut.github.io/</loc>
-    <lastmod>2019-11-16T18:46:37+08:00</lastmod>
+    <lastmod>2020-01-04T16:41:57+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://wgqimut.github.io/posts/know-ssh/</loc>
     <lastmod>2019-11-16T18:46:37+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wgqimut.github.io/categories/</loc>
-    <lastmod>2018-10-14T01:48:03+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://wgqimut.github.io/categories/cmd/</loc>
-    <lastmod>2018-10-14T01:48:03+00:00</lastmod>
   </url>
   
   <url>
