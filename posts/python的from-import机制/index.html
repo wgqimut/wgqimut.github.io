@@ -1,92 +1,11 @@
-<!doctype html>
-<html lang="en-ZH">
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>python的from-import机制 | 比克王国</title>
-    <meta property="og:title" content="python的from-import机制 - 比克王国">
-    <meta property="og:type" content="article">
-        
-    <meta property="article:published_time" content='2015-11-19T09:16:26&#43;08:00'>
-        
-        
-    <meta property="article:modified_time" content='2015-11-19T09:16:26&#43;08:00'>
-        
-    <meta name="Keywords" content="">
-    <meta name="description" content="python的from-import机制">
-        
-    <meta name="author" content="">
-    <meta property="og:url" content="https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-
-    <link rel="stylesheet" href='/css/normalize.css'>
-    <link rel="stylesheet" href='/css/style.css'>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    
-
-
-    
-    
-</head>
-
-
-<body>
-    <header id="header" class="clearfix">
-    <div class="container">
-        <div class="col-group">
-            <div class="site-name ">
-                
-                    <a id="logo" href="https://wgqimut.github.io/">
-                        比克王国
-                    </a>
-                
-                
-            </div>
-            <div>
-                <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://wgqimut.github.io/">首页</a>
-                    
-                    <a  href="https://wgqimut.github.io/archives/" title="归档">归档</a>
-                    
-                    <a  href="https://wgqimut.github.io/about/" title="关于">关于</a>
-                    
-                    <a  href="https://wgqimut.github.io/" title=""></a>
-                    
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
-
-    <div id="body">
-        <div class="container">
-            <div class="col-group">
-
-                <div class="col-8" id="main">
-                    
-<div class="res-cons">
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">python的from-import机制</h1>
-        </header>
-        <date class="post-meta meta-date">
-            2015年11月19日
-        </date>
-        
-        
-        <div class="post-meta">
-            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
-                    阅读</span></span>
-        </div>
-        
-        
-        <div class="post-content">
-            <p>在使用Python的过程中，我遇到了这么一个有关模块导入的bug。
+<!DOCTYPE html>
+<html lang="en"><meta charset="utf-8"><meta name="generator" content="Hugo 0.87.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark"><title>python的from-import机制&nbsp;&ndash;&nbsp;比克王国</title><link rel="stylesheet" href="/css/core.min.ce377468f8d4eea57a095f8d4581a56bae44d81643a42e5e1ae36b10a2a1eb4e3fcd37985f285ccc586eb563916c2d3a.css" integrity="sha384-zjd0aPjU7qV6CV&#43;NRYGla65E2BZDpC5eGuNrEKKh604/zTeYXyhczFhutWORbC06"><meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="python的from-import机制" /><body><section id="header">
+    <div class="header wrap"><span class="header left-side"><a class="site home" href="/"><span class="site name">比克王国</span></a></span>
+        <span class="header right-side"><div class="nav wrap"><nav class="nav"><a class="nav item" href="/categories/">Categories</a><a class="nav item" href="/tags/">Tags</a></nav></div></span></div></section><section id="content"><div class="article-container"><section class="article header">
+    <h1 class="article title">python的from-import机制</h1><p class="article date">2015-11-19</p></section><article class="article markdown-body"><p>在使用Python的过程中，我遇到了这么一个有关模块导入的bug。
 先说我的目录结构</p>
 <pre><code>core
     foo.py
@@ -96,47 +15,47 @@
     __init__.py
 </code></pre><p>（对，这就是我的目录结构😂）
 其中fuck.py里import了shit和bar,shit和bar里都import了foo,但是import的方式是不一样的,所有文件内容如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># fuck.py</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># fuck.py</span>
 <span style="color:#f92672">import</span> shit
 <span style="color:#f92672">import</span> bar
 
 <span style="color:#75715e">#...</span>
-<span style="color:#f92672">-</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>
+<span style="color:#f92672">---</span>
 <span style="color:#75715e"># shit.py</span>
 
 <span style="color:#f92672">from</span> foo <span style="color:#f92672">import</span> set_flag
 
-set_flag(True)
+set_flag(<span style="color:#66d9ef">True</span>)
 <span style="color:#75715e"># ...</span>
-<span style="color:#f92672">-</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>
+<span style="color:#f92672">---</span>
 <span style="color:#75715e"># bar.py</span>
 
 <span style="color:#f92672">from</span> core <span style="color:#f92672">import</span> foo
 
 <span style="color:#75715e">#...</span>
 
-foo<span style="color:#f92672">.</span>get_flag(True)
+foo<span style="color:#f92672">.</span>get_flag(<span style="color:#66d9ef">True</span>)
 
 <span style="color:#75715e">#...</span>
-<span style="color:#f92672">-</span><span style="color:#f92672">-</span><span style="color:#f92672">-</span>
+<span style="color:#f92672">---</span>
 <span style="color:#75715e"># foo.py</span>
 
-<span style="color:#66d9ef">if</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> globals():
-  globals()[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> False
+<span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;flag&#39;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> globals():
+  globals()[<span style="color:#e6db74">&#39;flag&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_flag</span>():
   <span style="color:#75715e"># lock</span>
-  flag <span style="color:#f92672">=</span> globals()[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span>]
+  flag <span style="color:#f92672">=</span> globals()[<span style="color:#e6db74">&#39;flag&#39;</span>]
   <span style="color:#75715e"># unlock</span>
   <span style="color:#66d9ef">return</span> flag
 
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_flag</span>(cur_flag):
   <span style="color:#75715e">#lock</span>
-  globals()[<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">flag</span><span style="color:#e6db74">&#39;</span>] <span style="color:#f92672">=</span> cur_flag
+  globals()[<span style="color:#e6db74">&#39;flag&#39;</span>] <span style="color:#f92672">=</span> cur_flag
   <span style="color:#75715e">#unlock</span>
 </code></pre></div><p>foo里边儿放了一个全局变量<code>flag</code>（同时为它配了个全局锁）,然后配有<code>get_flag</code>和<code>set_flag</code>函数，然后我在bar.py里调用了<code>get_flag</code>，在shit里调用了<code>set_flag</code>,但是我发现，我在shit.py里set的值，在bar.py里get的时候并没有得到体现，然后我就debug跟了一下，发现在shit.py里set的那个<code>flag</code>，跟bar里get的<code>flag</code>，好像并不是同一个东西啊。。。好像有两个独立的<code>flag</code>一样。</p>
-<p>去网上找了很多，发现是我没有对python的<code>import</code>机制了解清楚，这里涉及到“relative imports&rdquo;, &ldquo;Absolute imports&quot;的概念。</p>
+<p>去网上找了很多，发现是我没有对python的<code>import</code>机制了解清楚，这里涉及到“relative imports&quot;, &ldquo;Absolute imports&quot;的概念。</p>
 <blockquote>
 <p>当一个py文件被加载时，它会有一个名字，如果py作为top-level脚本，则名字就是<code>__main__</code>；如果作为module，它的名字是它所在的package或者subpackage， 和文件名用<code>.</code>连接起来形成的那个名字。</p>
 </blockquote>
@@ -166,210 +85,29 @@ foo<span style="color:#f92672">.</span>get_flag(True)
 <ul>
 <li>一般每个py文件开头都加上</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> __future__ <span style="color:#f92672">import</span> absolute_import
 </code></pre></div><p>以防止上述的第一种import方式，即隐式相对导入，强制必须使用absolute import。</p>
 <ul>
 <li>
 <p>可以在每个module里加上<code>__all__</code>这个字段，当这个module被import出去时，可以用<code>__all__</code>来控制这个module里的哪些符号可以被import出去。</p>
 </li>
 <li>
-<p><a href="https://www.python.org/dev/peps/pep-0008/#source-file-encoding" title="PEP8">PEP8关于imports的编码规范</a></p>
+<p><a href="https://www.python.org/dev/peps/pep-0008/#source-file-encoding"title="PEP8"target="_blank" rel="noopener noreferrer">PEP8关于imports的编码规范</a>
+</p>
 </li>
 </ul>
-<h3 id="heading">参考资料</h3>
+<h3 id="参考资料">参考资料</h3>
 <ul>
-<li><a href="http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912">stackoverflow import问答</a></li>
+<li><a href="http://stackoverflow.com/questions/14132789/python-relative-imports-for-the-billionth-time#answer-14132912"target="_blank" rel="noopener noreferrer">stackoverflow import问答</a>
+</li>
 </ul>
-
-        </div>
-
-        
-<div class="post-archive">
-    <ul class="post-copyright">
-        <li><strong>原文作者：</strong><a rel="author" href="https://wgqimut.github.io/">比克王国</a></li>
-        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/">https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/</a></li>
-        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
-    </ul>
+</article><section class="article labels"><a class="tag" href=/tags/python/>python</a></section>
 </div>
-<br/>
-
-
-
-        
-
-<div class="post-archive">
-    <h2>See Also</h2>
-    <ul class="listing">
-        
-        <li><a href="/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">tornado学习笔记</a></li>
-        
-    </ul>
-</div>
-
-
-        <div class="post-meta meta-tags">
-            
-            <ul class="clearfix">
-                
-                <li><a href='https://wgqimut.github.io/tags/python'>python</a></li>
-                
-            </ul>
-            
-        </div>
-    </article>
-    
-    
-
-    
-    
-</div>
-
-                </div>
-
-                <div id="secondary">
-    <section class="widget">
-        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
-      
-      <input type="text" name="q" maxlength="20" placeholder="Search">
-      <input type="hidden" name="sitesearch" value="https://wgqimut.github.io/">
-      <button type="submit" class="submit icon-search"></button>
-</form>
-    </section>
-    
-    <section class="widget">
-        <h3 class="widget-title">最近文章</h3>
-<ul class="widget-list">
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/git-remote/" title="Git同步">Git同步</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/know-ssh/" title="跟远程机器打交道之认识ssh">跟远程机器打交道之认识ssh</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/git-refs/" title="Git里引用一个commit">Git里引用一个commit</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/fs-walk/" title="命令行之浏览文件系统">命令行之浏览文件系统</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/" title="python2.7版本tuple中的中文编码问题">python2.7版本tuple中的中文编码问题</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/" title="烦人的rpm安装错误">烦人的rpm安装错误</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="wxPython学习笔记">wxPython学习笔记</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/" title="软件工程学习">软件工程学习</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/" title="Centos6 rrdtool环境配置">Centos6 rrdtool环境配置</a>
-    </li>
-    
-    <li>
-        <a href="https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="flask学习笔记">flask学习笔记</a>
-    </li>
-    
-</ul>
-    </section>
-
-    
-
-    <section class="widget">
-        <h3 class="widget-title">分类</h3>
-<ul class="widget-list">
-    
-    <li><a href="https://wgqimut.github.io/categories/cmd/">cmd (4)</a></li>
-    
-    <li><a href="https://wgqimut.github.io/categories/life/">life (1)</a></li>
-    
-    <li><a href="https://wgqimut.github.io/categories/programming/">Programming (3)</a></li>
-    
-    <li><a href="https://wgqimut.github.io/categories/tools/">tools (1)</a></li>
-    
-</ul>
-    </section>
-
-    <section class="widget">
-        <h3 class="widget-title">标签</h3>
-<div class="tagcloud">
-    
-    <a href="https://wgqimut.github.io/tags/life/">life</a>
-    
-    <a href="https://wgqimut.github.io/tags/python/">python</a>
-    
-</div>
-    </section>
-
-    
-<section class="widget">
-    <h3 class="widget-title">友情链接</h3>
-    <ul class="widget-list">
-        
-        <li>
-            <a target="_blank" href="https://www.itwork.club/" title="">IT 俱乐部</a>
-        </li>
-        
-        <li>
-            <a target="_blank" href="http://coolshell.cn/" title="">酷壳</a>
-        </li>
-        
-    </ul>
-</section>
-
-
-    <section class="widget">
-        <h3 class="widget-title">其它</h3>
-        <ul class="widget-list">
-            <li><a href="https://wgqimut.github.io/index.xml">文章 RSS</a></li>
-        </ul>
-    </section>
-</div>
-            </div>
-        </div>
-    </div>
-    <footer id="footer">
-    <div class="container">
-        &copy; 2020 <a href="https://wgqimut.github.io/">比克王国 By </a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
-        
-    </div>
-</footer>
-
-
-    
-    <script type="text/javascript">
-        window.MathJax = {
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
-    </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-
-
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
-
-
-
-    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-
-
-
-
-</body>
+<div class="article bottom"><section class="article navigation"><p><a class="link" href="/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%BC%8F/"><span class="iconfont icon-article"></span>性能优化模式</a></p><p><a class="link" href="/posts/%E6%AF%94%E8%BE%83%E5%96%9C%E6%AC%A2%E7%9A%84%E4%BA%BA%E7%94%9F%E6%80%81%E5%BA%A6/"><span class="iconfont icon-article"></span>比较喜欢的人生态度</a></p></section></div></section><section id="footer"><div class="footer-wrap">
+    <p class="copyright">比克王国</p>
+    <p class="powerby"><span>Powered&nbsp;by&nbsp;</span><a href="https://gohugo.io" 
+        target="_blank" rel="noopener noreferrer">Hugo</a><span>&nbsp;&amp;&nbsp;</span><a href="https://themes.gohugo.io/hugo-notepadium/" 
+        target="_blank" rel="noopener noreferrer">Notepadium</a></p></div>
+</section></body>
 
 </html>
