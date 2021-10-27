@@ -1,58 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>比克王国</title>
     <link>https://wgqimut.github.io/</link>
     <description>Recent content on 比克王国</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-ZH</language>
-    <lastBuildDate>Sat, 04 Jan 2020 16:41:57 +0800</lastBuildDate>
-    
-        <atom:link href="https://wgqimut.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 04 Jan 2020 16:41:57 +0800</lastBuildDate><atom:link href="https://wgqimut.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Git同步</title>
       <link>https://wgqimut.github.io/posts/git-remote/</link>
       <pubDate>Sat, 04 Jan 2020 16:41:57 +0800</pubDate>
       
       <guid>https://wgqimut.github.io/posts/git-remote/</guid>
-      <description>&lt;p&gt;git 的分布式设计, 使得每个开发者的 local 都有 remote repo 的一份 copy , 我们在这份 copy 上提交, 创建新 branch, 最终, 我们会把我们在 local 的改动, 同步到远程的 repo; 当别人更新了远程 repo, 我们还要从远程 repo 同步这些改动到自己的 local. 这一系列的操作, 我们可以统称为&lt;strong&gt;git的同步&lt;/strong&gt;, 同步发生在 local repo 和 remote repo 之间, 这篇文章就详细说说同步的事情.&lt;/p&gt;
-&lt;h3 id=&#34;remote-url-and-shortcuts&#34;&gt;remote URL and shortcuts&lt;/h3&gt;
-&lt;p&gt;要想跟 remote repo，我们自然要知道 repo 的地址，git repo 的地址是一个 URL，这个 URL，可能是一个文件系统路径，可能是一个 http 协议的地址，可能是一个 ssh 协议的地址，git 所有跟远程 repo 交互的命令，都需要提供这个 URL，但是这些 URL 往往都比较长，且难以记忆，给他们起一个名字（ 也可以叫 shortcut ），通过这个 shortcut 来跟远程 repo 交互是一个可以想到的比较好的方式，实际上 git 也是这么做的，我们在 git clone 的时候，输入这个URL，git默认就为我们创建了这么一个shortcut，叫&lt;code&gt;origin&lt;/code&gt;，这个 shortcut 与 URL 对，组成了一个&lt;code&gt;remote connection&lt;/code&gt;，我们可以使用&lt;code&gt;git remote&lt;/code&gt;来查看 local repo 目前有哪些 remote shortcut，使用&lt;code&gt;git remote -v&lt;/code&gt;来查看shortcut详细对应的URL。&lt;/p&gt;
-&lt;p&gt;除了 git 默认给我们创建的 shortcut，我们实际上可以用&lt;code&gt;git remote&lt;/code&gt;创建新的 remote shortcut，这个命令其实可以管理 remote connection，增删改查样样拿手。&lt;/p&gt;
-&lt;h3 id=&#34;local-repo-与-remote-repo-同步&#34;&gt;local repo 与 remote repo 同步&lt;/h3&gt;
-&lt;p&gt;有了 remote shortcut，我们跟 remote repo 打交道就变得简单多了，在说同步之前, 还得说说 branch.
-如果我们有了 remote connection, 那么我们在本地, 其实就有了 remote 的所有 branch, 可以通过&lt;code&gt;git branch -a&lt;/code&gt;看到 &lt;code&gt;remotes/&lt;/code&gt;开头的 branch, 使用 git clone 之后, 因为会默认创建&lt;code&gt;origin&lt;/code&gt;这个 remote shortchut, 所以你会看到有&lt;code&gt;remotes/origin/master&lt;/code&gt;这种 branch.  git 的同步,首先是将我们本地的 remote branch 更新, 然后再去 upload 或者是将 remote branch 的更新 merge 到 local branch.&lt;/p&gt;
-&lt;p&gt;同步有 download 和 upload 两个动作.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;download&lt;/p&gt;
-&lt;p&gt;download 有两个命令, &lt;code&gt;git fetch&lt;/code&gt;和&lt;code&gt;git pull&lt;/code&gt;, &lt;code&gt;git pull&lt;/code&gt;其实是&lt;code&gt;git fetch&lt;/code&gt;和&lt;code&gt;git merge&lt;/code&gt;的组合, 它更新 local 的 remote branch 的代码,  并将改动 merge 到我们当前的 branch 上; 而&lt;code&gt;git fetch&lt;/code&gt;则仅仅是将 remote 的改动更新到 local 的 remote branch, 它比&lt;code&gt;git pull&lt;/code&gt;更加安全.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;upload&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;git push&lt;/code&gt;来将我们 local branch 的改动提交到 remote. 当然它首先是将 local branch 的改动更新到 local remote branch, 然后再去将改动上传给 remote.
-无论是 download 还是 upload, 我们自然都要指定 remote 的地址是什么, 因为我们创建了 remote shortcut, 所以我们可以直接使用诸如&lt;code&gt;origin&lt;/code&gt;来操作, 下面是常用的一些操作:&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#download&lt;/span&gt;
-git fetch —all &lt;span style=&#34;color:#75715e&#34;&gt;# download所有的remotes&lt;/span&gt;
-git fetch origin &lt;span style=&#34;color:#75715e&#34;&gt;# download origin 这个remote的所有branch&lt;/span&gt;
-
-git pull —rebase &lt;span style=&#34;color:#75715e&#34;&gt;# 建议使用rebase的方式来merge远程的代码到我们的local branch&lt;/span&gt;
-git pull origin master &lt;span style=&#34;color:#75715e&#34;&gt;# 将origin这个remote的master分支更新, 并merge到我们当前的branch, 这个其实是`git pull`这个命令的默认动作.&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;#upload&lt;/span&gt;
-git push origin master &lt;span style=&#34;color:#75715e&#34;&gt;#将我们本地的改动更新到origin这个remote的master分支. origin是push命令的默认remote&lt;/span&gt;
-
-&lt;span style=&#34;color:#75715e&#34;&gt;#remote的管理&lt;/span&gt;
-git remote add other_repo &amp;lt;other_repo_url&amp;gt; &lt;span style=&#34;color:#75715e&#34;&gt;# 添加一个新的remote, 叫other_repo, 我们可以在后续的git fetch other_repo, git push other_repo master里来跟othe_repo这个remote来同步代码. &lt;/span&gt;
-git remote add -f other_repo &amp;lt;other_repo_url&amp;gt; &lt;span style=&#34;color:#75715e&#34;&gt;# 添加新的remote, 并直接将这个remote的repo fetch到本地.&lt;/span&gt;
-git remote rename other_repo feature_repo
-git remote rm feature_reop
-
-git remote show origin &lt;span style=&#34;color:#75715e&#34;&gt;# 查看某个remote shortcut详细信息, 比如本地的哪个branch跟踪的是remote的哪个branch&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+      <description>git 的分布式设计, 使得每个开发者的 local 都有 remote repo 的一份 copy , 我们在这份 copy 上提交, 创建新 branch, 最终, 我们会把我们在 local 的改动, 同步到远程的 repo; 当别人更新了远程 repo, 我们还要从远程 repo 同步这些改动到自己的 local. 这一系列的操作, 我们可以统称为git的同步, 同步发生在 local repo 和</description>
     </item>
     
     <item>
@@ -61,50 +22,7 @@ git remote show origin &lt;span style=&#34;color:#75715e&#34;&gt;# 查看某个r
       <pubDate>Sat, 16 Nov 2019 18:46:37 +0800</pubDate>
       
       <guid>https://wgqimut.github.io/posts/know-ssh/</guid>
-      <description>&lt;p&gt;作为一个开发者, 跟远程服务器打交道是在所难免的. &lt;code&gt;ssh&lt;/code&gt;是我们经常用到的, 但是 ssh 其实有很多方便的配置和使用方法, 可以帮助我们更轻松的跟远程服务器交互, 下面一一介绍.&lt;/p&gt;
-&lt;h3 id=&#34;简化登录&#34;&gt;简化登录&lt;/h3&gt;
-&lt;h4 id=&#34;给远程服务器起个名字吧&#34;&gt;给远程服务器起个名字吧&lt;/h4&gt;
-&lt;p&gt;ssh 一般是使用&lt;code&gt;ssh &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;&lt;/code&gt;, 然后输入密码的方式来登录服务器, 其实可以有更简单的方式.&lt;/p&gt;
-&lt;p&gt;我们 ssh 的时候, 本地的机器是ssh的客户端, 服务器则是ssh的服务器端. ssh 客户端可以有自己的配置文件, 它的位置是在&lt;code&gt;/etc/ssh/ssh_config&lt;/code&gt;( global config ) 以及&lt;code&gt;$HOME/.ssh/config&lt;/code&gt;( 如果没有则可以创建 ), 我们利用配置文件, 可以配置ssh时的一些参数. 典型的应用就是, 我们可以在这个文件里事先填好远程服务器的信息, 然后给它起一个别名, 比如这样:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Host dev_server &lt;span style=&#34;color:#75715e&#34;&gt;# dev_server就是我们给远程服务器起的名字&lt;/span&gt;
-Hostname 192.168.2.1 &lt;span style=&#34;color:#75715e&#34;&gt;# 这个字段指定了服务器的IP&lt;/span&gt;
-Port &lt;span style=&#34;color:#ae81ff&#34;&gt;22&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# 指定端口, 默认是22的话可以不指定&lt;/span&gt;
-User eleven &lt;span style=&#34;color:#75715e&#34;&gt;# 使用哪个用户登录&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将上面的配置写入&lt;code&gt;$HOME/.ssh/config&lt;/code&gt;文件之后, 我们之前的&lt;code&gt;ssh eleven@192.168.2.1&lt;/code&gt;命令, 就可以简单的写为&lt;code&gt;ssh dev_server&lt;/code&gt; 了.&lt;/p&gt;
-&lt;h4 id=&#34;每次需要输入密码-试试免密登录吧&#34;&gt;每次需要输入密码? 试试免密登录吧&lt;/h4&gt;
-&lt;p&gt;每次 ssh, 我们都需要输入密码, 这无疑有点繁琐, ssh 协议可以使用 &lt;a href=&#34;https://www.ssh.com/ssh/public-key-authentication&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;&lt;strong&gt;公钥认证&lt;/strong&gt;&lt;/a&gt;
-来避免每次输入密码的繁琐, 简化 ssh 的登录过程, 最重要的是, 它更安全.&lt;/p&gt;
-&lt;p&gt;公钥认证首先需要我们创建自己的&lt;code&gt;key pair&lt;/code&gt;, 一个公钥, 一个私钥. 然后将公钥copy到服务器,我们就可以实现免密登录了.&lt;/p&gt;
-&lt;p&gt;最简单的配置命令是:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;ssh-keygen -C &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;your_email&amp;gt;&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;#生成自己的key pair, 如果提示有了则不需要继续执行, 其中需要输入passphrase, 可以选择回车跳过&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# 提供email信息是好的,这样服务器就可以方便的管理公钥&lt;/span&gt;
-ssh-copy-id &amp;lt;remote_server&amp;gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# 输入服务器密码, 就可以将自己的公钥拷贝到服务器啦&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;完成上面的配置之后, 我们就可以直接&lt;code&gt;ssh &amp;lt;remote_server&amp;gt;&lt;/code&gt;, 不需要键入密码直接登录服务器了.&lt;/p&gt;
-&lt;p&gt;有的时候, 你会有很多服务器, 比如你需要使用 ssh 协议来从 GitHub 上 clone 代码, 你有自己的云服务器, 在公司你还会登录公司的服务器, 这些服务器, 使用一个 key pair, 当然也没有问题, 但是分别使用自己单独的 key pair总是好的.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ssh-keygen&lt;/code&gt;默认会在&lt;code&gt;~/.ssh/&lt;/code&gt;下面创建&lt;code&gt;~/.ssh/id_rsa&lt;/code&gt; ( 私钥 ) 和&lt;code&gt;~/.ssh/id_rsa.pub&lt;/code&gt; ( 公钥 ) 两个文件. 在 ssh 登录的时候, 也会默认使用这个默认创建的文件来尝试登录服务器, 如果我们需要不同的服务器使用不同的 key pair 来登录, 我们就需要定制创建:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;ssh-keygen -t rsa -f ~/.ssh/&amp;lt;name&amp;gt;_rsa -C &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;you_email&amp;gt;&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# 默认就使用的是 rsa 方式加密, -t 可以指定加密方式, -f 可以指定生成的 key pair 的名字&lt;/span&gt;
-ssh-copy-id -i ~/.ssh/&amp;lt;name&amp;gt;_rsa &amp;lt;remote_server&amp;gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# 拷贝公钥到服务器的时候, 如果不使用 -i 来指定拷贝的目标 key pair 文件,&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# ssh-copy-id 则会拷贝~/.ssh/ 下的所有 key pair 文件, 这并不是我们想要的.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将 key pair 文件定制创建并拷贝到服务器上之后, 接下来 ssh 登录的时候, 问题就来了, 你现在有了多个 key pair, ssh 怎么知道你需要使用哪个 key pair 来登录服务器呢? 我们可以在 ssh 的时候使用 &lt;code&gt;-i&lt;/code&gt; 来指定 identity file, 也就是哪个 key pair, 但是未免有点繁琐,  我们可以在&lt;code&gt;~/.ssh/config&lt;/code&gt;里, 给服务器指定 identity file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;Host dev_server
-Hostname 192.168.2.1
-Port &lt;span style=&#34;color:#ae81ff&#34;&gt;22&lt;/span&gt;
-User eleven
-IdentityFile ~/.ssh/&amp;lt;dev_server_rsa&amp;gt; &lt;span style=&#34;color:#75715e&#34;&gt;# 设置使用哪个 key pair来登录该服务器&lt;/span&gt;
-IdentitiesOnly yes &lt;span style=&#34;color:#75715e&#34;&gt;# 甚至可以设置只允许使用key pair的形式来登录&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;到此为止, 我们就可以&lt;strong&gt;简单, 安全&lt;/strong&gt;愉快的登录服务器啦.&lt;/p&gt;
-&lt;h3 id=&#34;远程运行命令&#34;&gt;远程运行命令&lt;/h3&gt;
-&lt;p&gt;有的时候我们登录服务器仅仅是为了运行几条简单的命令,  并不需要做很多事情; 或者是, 我们需要编写脚本, 自动化的登录服务器做一些事情, 这个时候, 我们就需要远程运行命令的能力了.&lt;/p&gt;
-&lt;p&gt;如果只是简单的几条命令, 可以直接使用&lt;code&gt;ssh &amp;lt;remote_server&amp;gt; &amp;quot;command1 &amp;amp;&amp;amp; command2&amp;quot;&lt;/code&gt; 来直接运行命令并返回结果即可. 但如果我们需要在服务器上运行很多条命令, 或者是我们需要重复性的运行这些命令, 最好的还是, 在本地写一个脚本, 然后让远程服务器运行我们本地的一个脚本. 我们可以这样做:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;ssh &amp;lt;remote_server&amp;gt; bash -s -- &amp;lt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;path_to_script&amp;gt; args1 arg2...&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# 甚至可以给脚本传参数!&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;还有更多&#34;&gt;还有更多&amp;hellip;&lt;/h3&gt;
-&lt;p&gt;ssh 还可以做到很多事情, 比如我们可以让 TCP 连接的数据, 转发给 ssh 来提高数据传输的安全性; 倘若你还有更高级的需求, 比如, 有时候我们要登录的目标服务器B, 需要一个跳板机A才能登录上去, 但是我们又不想把自己登录目标服务器B所需的私钥放到跳板机A上, 每次登录都要跳转难免又有点繁琐, 这个时候则可以借助 ssh 的代理功能以及 &lt;code&gt;ssh-agent&lt;/code&gt; 来帮我们做到一步登录. 更多精彩, &lt;code&gt;man ssh&lt;/code&gt; 一下.&lt;/p&gt;
-</description>
+      <description>作为一个开发者, 跟远程服务器打交道是在所难免的. ssh是我们经常用到的, 但是 ssh 其实有很多方便的配置和使用方法, 可以帮助我们更轻松的跟远程服务器交互, 下面一一介绍. 简化登录 给远程服务器起个名字吧 ssh 一般是使用ssh &amp;lt;user&amp;gt;@&amp;lt;ip&amp;gt;, 然后输入密码的方式来登录服务</description>
     </item>
     
     <item>
@@ -113,64 +31,7 @@ IdentitiesOnly yes &lt;span style=&#34;color:#75715e&#34;&gt;# 甚至可以设�
       <pubDate>Sun, 14 Oct 2018 01:48:03 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/git-refs/</guid>
-      <description>&lt;p&gt;git所有的操作, 其实都是在跟&lt;code&gt;commit&lt;/code&gt;打交道:&lt;/p&gt;
-&lt;p&gt;你&lt;code&gt;stage&lt;/code&gt;你的&lt;code&gt;commit&lt;/code&gt;, 创建一个&lt;code&gt;commit,&lt;/code&gt; 查看之前的&lt;code&gt;commit&lt;/code&gt;, 把&lt;code&gt;commit&lt;/code&gt;在不同的branch之间挪动, &lt;code&gt;push&lt;/code&gt;你的&lt;code&gt;commit&lt;/code&gt;等等.&lt;/p&gt;
-&lt;p&gt;那么, 怎么指定&lt;code&gt;commit&lt;/code&gt;就很重要.&lt;/p&gt;
-&lt;h4 id=&#34;1-通过commit-hash来指定&#34;&gt;1. 通过&lt;code&gt;commit hash&lt;/code&gt;来指定.&lt;/h4&gt;
-&lt;p&gt;一个&lt;code&gt;commit&lt;/code&gt;跟一个&lt;code&gt;commit hash&lt;/code&gt;是一一对应的, 这是最直接的指定&lt;code&gt;commit&lt;/code&gt;的方式.&lt;/p&gt;
-&lt;h4 id=&#34;2-通过refs&#34;&gt;2. 通过&lt;code&gt;refs&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;refs&lt;/code&gt;是一种间接指定&lt;code&gt;commit&lt;/code&gt;的方式, 相当于&lt;code&gt;commit hash&lt;/code&gt;的别名, 它更加对人类友好, 不过, 不是所有的&lt;code&gt;commit hash&lt;/code&gt;都有别名(也就是&lt;code&gt;refs&lt;/code&gt;)的. 通常你见到的branch name, 比如&lt;code&gt;master&lt;/code&gt;, 其实就是一种&lt;code&gt;ref&lt;/code&gt;.&lt;/p&gt;
-&lt;h5 id=&#34;1-一般的ref&#34;&gt;1. 一般的ref&lt;/h5&gt;
-&lt;p&gt;要知道你的repo有多少&lt;code&gt;refs&lt;/code&gt;, 可以在&lt;code&gt;.git/refs&lt;/code&gt;这个目录里看到类似下面的目录树.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;如果你的git repo是一个大型repo, 很可能你的refs被压缩成一个叫.git/packed-refs的文件, 而不是在.git/refs目录下.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;heads/ &lt;span style=&#34;color:#75715e&#34;&gt;# 这个目录里存放了你所有的local branch&lt;/span&gt;
-	master
-	some-feature
-remotes/ &lt;span style=&#34;color:#75715e&#34;&gt;# 这个目录下存放的是你所有fetch到本地的remote branch&lt;/span&gt;
-	origin/
-		master
-tags/ &lt;span style=&#34;color:#75715e&#34;&gt;# 这个目录下是你所有的tag&lt;/span&gt;
-	v0.9
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用一个ref来指定一个commit很简单, 比如&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;git show master
-&lt;span style=&#34;color:#75715e&#34;&gt;# 这里的master, 只是refs/heads/master的简写, 正常情况下, 我们简写refs就可以, 除非tags目录下也有一个master的tag存在, 这时候就不能简写master,那样就无法区分是refs/heads/master, 还是refs/tags/master.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;2-特殊的ref&#34;&gt;2. 特殊的ref&lt;/h5&gt;
-&lt;p&gt;除了&lt;code&gt;.git/refs&lt;/code&gt;(或者&lt;code&gt;.git/packed-refs&lt;/code&gt;)下的refs, 还有一些&lt;strong&gt;特殊的refs&lt;/strong&gt;, 定义在&lt;code&gt;.git&lt;/code&gt;这个目录下, 说几个常见的:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;HEAD&lt;/code&gt;: 当然checkout的commit/branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;FETCH_HEAD&lt;/code&gt;: 最近一次从远端 fetch的branch&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;MERGE_HEAD&lt;/code&gt;: 你正在merge到当前brach的那个commit.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h5 id=&#34;3-相对refs&#34;&gt;3. 相对refs&lt;/h5&gt;
-&lt;p&gt;你可以指定通过一个&lt;code&gt;commit&lt;/code&gt;来指定另一个&lt;code&gt;commit&lt;/code&gt;:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;~&lt;/code&gt;这个字符, 可以帮助你指定你当前commit的parent commit.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;git show HEAD~1&lt;/code&gt;: HEAD的上一个commit.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;如果发生过merge, 那么一个commit, 就有可能有两个parent, 这个时候, 如何指定另一个parent呢? &lt;code&gt;^&lt;/code&gt;字符, 可以帮你:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;git show HEAD^2&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;code&gt;~&lt;/code&gt;跟&lt;code&gt;^&lt;/code&gt;的区别, 下面这张图你可以看到.&lt;/p&gt;
-&lt;p&gt;&lt;img  src=&#34;https://wac-cdn.atlassian.com/dam/jcr:cb2ce970-3ef4-4eda-96a9-fe990745f5a7/02.svg?cdnVersion=kc&#34;
-        alt=&#34;Accessing commits using relative refs&#34;/&gt;&lt;/p&gt;
-&lt;h5 id=&#34;4-reflog&#34;&gt;4. Reflog&lt;/h5&gt;
-&lt;p&gt;你在local repo上做的所有关于commit hash的历史操作, git其实都为你保留在&lt;code&gt;reflog&lt;/code&gt;里.  可以通过&lt;code&gt;git reflog&lt;/code&gt;来查看:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;5a9f9aa25 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HEAD -&amp;gt; xtao, origin/xtao, origin/HEAD&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; HEAD@&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;: reset: moving to origin/xtao
-53ca49f77 HEAD@&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;: cherry-pick: change dht log level
-c83c124b2 HEAD@&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;2&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;: cherry-pick: delete unecessary code to fix make error.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果你要恢复某一个历史commit hash, 你可以通过&lt;code&gt;HEAD@{&amp;lt;n&amp;gt;}&lt;/code&gt;这样的语法, 来指定在reflog里的一个commit hash, 比如:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;git checkout HEAD@{1}&lt;/code&gt;&lt;/p&gt;
-&lt;h4 id=&#34;总结&#34;&gt;总结&lt;/h4&gt;
-&lt;p&gt;通过了解git如何引用一个commit, 我们其实了解到了很多git内部的机制, 比如它是如何存储branch信息和tag信息的, 这会帮助我们更好的理解平时使用的git 命令.&lt;/p&gt;
-&lt;p&gt;有的时候, 我们还需要指定一定范围内的commit, 比如当你想把一个branch上最近提交的几个commit, 提交到另一个branch上, 该怎么做呢? 敬请期待下一篇啦.&lt;/p&gt;
-&lt;p&gt;参考: &lt;a href=&#34;https://www.atlassian.com/git/tutorials/refs-and-the-reflog&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;https://www.atlassian.com/git/tutorials/refs-and-the-reflog&lt;/a&gt;
-&lt;/p&gt;
-</description>
+      <description>git所有的操作, 其实都是在跟commit打交道: 你stage你的commit, 创建一个commit, 查看之前的commit, 把commit在不同的branch之间挪动, push你的commit等等. 那么, 怎么指定commit就很重要. 1. 通</description>
     </item>
     
     <item>
@@ -179,65 +40,7 @@ c83c124b2 HEAD@&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;2&lt;span
       <pubDate>Tue, 24 Jul 2018 16:41:54 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/fs-walk/</guid>
-      <description>&lt;p&gt;查看文件系统, 主要有几个需求:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;我在哪儿&lt;/li&gt;
-&lt;li&gt;我要去哪儿&lt;/li&gt;
-&lt;li&gt;当前目录下有什么&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;1-我在哪儿&#34;&gt;1. 我在哪儿:&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;pwd
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;2-我要去哪儿&#34;&gt;2. 我要去哪儿:&lt;/h3&gt;
-&lt;p&gt;两种方式去, 一种是&lt;strong&gt;绝对路径&lt;/strong&gt;, 一种是&lt;strong&gt;相对路径&lt;/strong&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;cd /home/grady/workspace &lt;span style=&#34;color:#75715e&#34;&gt;# 绝对路径去&lt;/span&gt;
-cd ../scripts &lt;span style=&#34;color:#75715e&#34;&gt;#相对路径去, 去往当前目录的上一级目录下的scripts目录&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;..&lt;/code&gt;是一个特殊的目录, 表示当前目录的上一级目录.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;.&lt;/code&gt;也是一个特殊目录, 表示当前目录.&lt;/p&gt;
-&lt;h3 id=&#34;3-当前路径下有什么&#34;&gt;3. 当前路径下有什么&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;简单列出&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;ls &lt;span style=&#34;color:#75715e&#34;&gt;#单纯的列出有哪些文件&lt;/span&gt;
-➜ ls
-a.mp4  c  d  dir1  e  m.c  s.js  test.pdf
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre&gt;&lt;code&gt; 类似于Finder的这个视图:
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img  src=&#34;http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270740549343.png&#34;
-        alt/&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;详细列出&lt;/p&gt;
-&lt;p&gt;我们还可能会这么查看:&lt;/p&gt;
-&lt;p&gt;&lt;img  src=&#34;http://7xk8fn.com1.z0.glb.clouddn.com/20180728153270902739802.png&#34;
-        alt/&gt;&lt;/p&gt;
-&lt;p&gt;这个可以通过使用&lt;code&gt;ls -ltrh&lt;/code&gt;来做到:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt; ➜  ls -ltrh
- total 500K
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:00 test.pdf
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:01 a.mp4
- drwxr-xr-x &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt; ilbsmart staff   &lt;span style=&#34;color:#ae81ff&#34;&gt;64&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:01 dir1
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:01 c
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:01 d
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:01 e
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:01 m.c
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff    &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:01 s.js
- -rw-r--r-- &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; ilbsmart staff 500K Jul &lt;span style=&#34;color:#ae81ff&#34;&gt;28&lt;/span&gt; 00:08 big_one
-
-&lt;span style=&#34;color:#75715e&#34;&gt;# -l 显示更详细的信息&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# -t是指按照时间从最新到最老来排序&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# -r reserve sort, 有的时候目录下文件太多, 我们更希望最后显示的是最新的文件, 也就是说, 从最老到最新排序, 可以加上这个参数&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;# -h 以人类可以看懂的方式显示size, 默认其实是以字节数来显示每个entry的大小的.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;更多&lt;/p&gt;
-&lt;p&gt;常用的还有&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;ls -R&lt;/code&gt;: 递归显示当前目录下所有目录下的文件.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ls *.js&lt;/code&gt; 只显示后缀是&lt;code&gt;.js&lt;/code&gt;的文件&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <description>查看文件系统, 主要有几个需求: 我在哪儿 我要去哪儿 当前目录下有什么 1. 我在哪儿: pwd 2. 我要去哪儿: 两种方式去, 一种是绝对路径, 一种是相对路径. cd /home/grady/workspace # 绝对路径去 cd ../scripts #相对路径去, 去往当前目录的上一级目录下的scripts目录 ..是一个特殊的目录, 表</description>
     </item>
     
     <item>
@@ -246,60 +49,7 @@ a.mp4  c  d  dir1  e  m.c  s.js  test.pdf
       <pubDate>Tue, 24 Jan 2017 00:04:36 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/python2-7%E7%89%88%E6%9C%ACtuple%E4%B8%AD%E7%9A%84%E4%B8%AD%E6%96%87%E7%BC%96%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
-      <description>&lt;p&gt;在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文&lt;code&gt;str&lt;/code&gt; ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。&lt;/p&gt;
-&lt;p&gt;中文字符正常情况下应该是这样的：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;中文123&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; print(a)
-中文123
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;但是你如果把一个包含中文的字符放到&lt;code&gt;tuple&lt;/code&gt; 里面，却会变成这样：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tuple([&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;中文123&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;hello&amp;#39;&lt;/span&gt;])
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; print(a)
-(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\xe4\xb8\xad\xe6\x96\x87&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;123&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;hello&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;# 这里按理说应该显示的是(&amp;#39;中文123&amp;#39;, &amp;#39;hello&amp;#39;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;中文字符显示成了编码后的十六进制形式，也就是说，&lt;code&gt;\x&lt;/code&gt; 这个python的保留字符(用来表示它后面两个字符是十六进制值)，并没有得到“正确的”解析，实际上这里是把&lt;code&gt;&#39;\xe4\xb8\xad\xe6\x96\x87&#39;&lt;/code&gt; 当成一个&lt;code&gt;raw strings&lt;/code&gt; 来处理，这里面的&lt;code&gt;\x&lt;/code&gt; 没有任何特别的意思，就是字面的&lt;code&gt;\x&lt;/code&gt; ，所有它后面十六进制数也都只是表面上的意思。&lt;/p&gt;
-&lt;h4 id=&#34;为什么会这样&#34;&gt;为什么会这样？&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;tuple&lt;/code&gt; 应该是对它里面的&lt;code&gt;str&lt;/code&gt; 做了一个&lt;code&gt;encode(&#39;string_escape&#39;)&lt;/code&gt; 的操作，这个操作同&lt;code&gt;r&#39;&#39;&lt;/code&gt;等价，意思是生成一个&lt;code&gt;raw strings&lt;/code&gt;，官方的解释是&lt;strong&gt;Produce a string that is suitable as string literal in Python source code&lt;/strong&gt;, 我们做个实验：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;中文123&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; a
-&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\xe4\xb8\xad\xe6\x96\x87&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;123&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; print(a)
-中文123
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;string_escape&amp;#39;&lt;/span&gt;)
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; b
-&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;xe4&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;xb8&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;xad&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;xe6&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;x96&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;x87123&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; print(b)
-\xe4\xb8\xad\xe6\x96\x87123
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;嗯，一切都清楚了，那么问题来了，&lt;code&gt;tuple&lt;/code&gt; 为啥要这么干呢&amp;hellip;暂时不知道&amp;hellip;&lt;/p&gt;
-&lt;h4 id=&#34;解决办法&#34;&gt;解决办法&lt;/h4&gt;
-&lt;p&gt;对字符做&lt;code&gt;decode(&#39;string_escape&#39;)&lt;/code&gt;就可以了。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;decode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;string_escape&amp;#39;&lt;/span&gt;)
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; print(c)
-中文123
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;总结&#34;&gt;总结&lt;/h4&gt;
-&lt;p&gt;首先，&lt;code&gt;tuple&lt;/code&gt; 会它里面的中文字符做一个&lt;code&gt;r&#39;&#39;&lt;/code&gt; 的转换，这是个坑，踩过了就不说了。&lt;/p&gt;
-&lt;p&gt;其次，知道了&lt;code&gt;r&#39;&#39;&lt;/code&gt;的函数写法是这样的: &lt;code&gt;encode(&#39;string_escape&#39;)&lt;/code&gt; ，也就是说，从此以后，可以对一个变量进行&lt;code&gt;r&#39;&#39;&lt;/code&gt; 操作啦。&lt;/p&gt;
-&lt;h4 id=&#34;拓展&#34;&gt;拓展&lt;/h4&gt;
-&lt;p&gt;其实还有一个&lt;code&gt;unicode_escape&lt;/code&gt; 的编码方式&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;官方的解释是Produce a string that is suitable as Unicode literal in Python source code.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;也就是说，将&lt;code&gt;\u&lt;/code&gt; 这个保留字符按照字面意思去解释，也就是&lt;code&gt;raw unicode&lt;/code&gt;话。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;string_escape&lt;/code&gt; 和&lt;code&gt;unicode_escape&lt;/code&gt; 都是将转义字符&lt;code&gt;raw&lt;/code&gt; 话，将它们当做普通字符来看待，只不过前者只能针对&lt;code&gt;str&lt;/code&gt; （编码后的字符）进行操作，后者是针对&lt;code&gt;unicode&lt;/code&gt;字符进行操作。&lt;/strong&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;u&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;中文&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; a
-&lt;span style=&#34;color:#e6db74&#34;&gt;u&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\u4e2d\u6587&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; print(a)
-中文
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;unicode_escape&amp;#39;&lt;/span&gt;)
-&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;u4e2d&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;u6587&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; print(b)
-\u4e2d\u6587
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;题外话&#34;&gt;题外话&lt;/h4&gt;
-&lt;p&gt;是时候转Python3了。&lt;/p&gt;
-&lt;h4 id=&#34;参考链接&#34;&gt;参考链接：&lt;/h4&gt;
-&lt;p&gt;&lt;a href=&#34;https://docs.python.org/2.7/reference/lexical_analysis.html#string-literals&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;python的转义字符&lt;/a&gt;
-&lt;/p&gt;
-&lt;p&gt;[&lt;code&gt;unicode_escape&lt;/code&gt;和&lt;code&gt;string_escape](https://docs.python.org/2/library/codecs.html)&lt;/code&gt;&lt;/p&gt;
-</description>
+      <description>在处理向mysql插入中文字符的过程中，碰到这样一个问题，明明是utf-8编码的中文str ，但是到了mysql里面显示的并不是中文，而是该中文字符串的utf-8编码的十六进制形式，下面是整个解决过程。 中文字符正常情况下应该是这样的： &amp;gt;&amp;gt;&amp;gt; a = &amp;</description>
     </item>
     
     <item>
@@ -308,17 +58,7 @@ a.mp4  c  d  dir1  e  m.c  s.js  test.pdf
       <pubDate>Thu, 19 Jan 2017 11:18:37 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/%E7%83%A6%E4%BA%BA%E7%9A%84rpm%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF/</guid>
-      <description>&lt;p&gt;在本地安装rpm包的时候，碰到&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;error: Failed dependencies:
-	libz.so.1&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ZLIB_1.2.0&lt;span style=&#34;color:#f92672&#34;&gt;)(&lt;/span&gt;64bit&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; is needed by XXX
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种**，提示你有动态库依赖但是你已经装了这个库的错误**，基本就是版本问题（注意看小版本号）。&lt;/p&gt;
-&lt;p&gt;另外，在排查问题的过程中，发现两个有用的命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;yum localinstall &amp;lt;rpm_package_name&amp;gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# 代替rpm -ivh 来安装本地rpm包，可以让yum去自动帮你下载本地没有的依赖&lt;/span&gt;
-
-ldconfig -p | grep &amp;lt;动态库名称&amp;gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# 查看动态库的本地路径&lt;/span&gt;
-&lt;span style=&#34;color:#75715e&#34;&gt;#eg:&lt;/span&gt;
-ldconfig -p | grep libz.so.1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+      <description>在本地安装rpm包的时候，碰到 error: Failed dependencies: libz.so.1(ZLIB_1.2.0)(64bit) is needed by XXX 这样的错误，但是实际上我已经安装了这个动态库了，版本也对，濒临崩溃的时候，运维的同事给我升级了一下这个库，然后就特么可以了。原来是小版本的问题，所以碰到这种**，提示你有动态库依赖但是你已经装了</description>
     </item>
     
     <item>
@@ -327,46 +67,7 @@ ldconfig -p | grep libz.so.1
       <pubDate>Mon, 05 Dec 2016 14:31:53 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/wxpython%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-      <description>&lt;p&gt;A &lt;code&gt;wx.Frame&lt;/code&gt; is a top-level window.&lt;/p&gt;
-&lt;p&gt;When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that &lt;code&gt;wx.Window&lt;/code&gt; should represent a window on the screen. Unfortunately, this is not the case. A &lt;code&gt;wx.Window&lt;/code&gt; is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a &lt;code&gt;wx.Frame&lt;/code&gt;. This is an unfortunate inconsistency that has led to much confusion for new users.&lt;/p&gt;
-&lt;p&gt;Within a frame, you&amp;rsquo;ll use a number of &lt;code&gt;wxWindow&lt;/code&gt; sub-classes to flesh out the frame&amp;rsquo;s contents. Here are some of the more common elements you might want to put in your frame:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;A &lt;code&gt;wx.MenuBar&lt;/code&gt;, which puts a menu bar along the top of your frame.&lt;/li&gt;
-&lt;li&gt;A &lt;code&gt;wx.StatusBar&lt;/code&gt;, which sets up an area along the bottom of your frame for displaying status messages, etc.&lt;/li&gt;
-&lt;li&gt;A &lt;code&gt;wx.ToolBar&lt;/code&gt;, which puts a toolbar in your frame.&lt;/li&gt;
-&lt;li&gt;Sub-classes of &lt;code&gt;wx.Control&lt;/code&gt;. These are objects which represent user interface widgets (ie, visual elements which display data and/or process user input). Common examples of &lt;code&gt;wx.Control&lt;/code&gt; objects include &lt;code&gt;wx.Button&lt;/code&gt;, &lt;code&gt;wx.StaticText&lt;/code&gt;, &lt;code&gt;wx.TextCtrl&lt;/code&gt; and &lt;code&gt;wx.ComboBox&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;A &lt;code&gt;wx.Panel&lt;/code&gt;, which is a container to hold your various &lt;code&gt;wx.Control&lt;/code&gt; objects. Putting your &lt;code&gt;wx.Control&lt;/code&gt; objects inside a &lt;code&gt;wx.Panel&lt;/code&gt; means that the user can tab from one UI widget to the next.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;All visual elements (wxWindow objects and their subclasses) can hold sub-elements. Thus, for example, a &lt;code&gt;wx.Frame&lt;/code&gt; might hold a number of &lt;code&gt;wx.Panel&lt;/code&gt; objects, which in turn hold a number of &lt;code&gt;wx.Button&lt;/code&gt;, &lt;code&gt;wx.StaticText&lt;/code&gt; and &lt;code&gt;wx.TextCtrl&lt;/code&gt; objects,&lt;/p&gt;
-&lt;p&gt;A sizer is a way of laying out windows, it is not a window in itself.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;what is panel？&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&amp;ldquo;A panel is a window on which controls are placed. It is usually placed within a frame. It contains minimal extra functionality over and above its parent class &lt;code&gt;wxWindow&lt;/code&gt;; its main purpose is to be similar in appearance and functionality to a dialog, but with the flexibility of having any window as a parent.&amp;rdquo;, in fact, it is a simple window used as a (grayed) background for other objects which are meant to deal with data entry. These are generally known as Controls or Widgets.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;几乎所有的&lt;code&gt;wx.Control&lt;/code&gt;貌似都有&lt;code&gt;label&lt;/code&gt;啊，&lt;code&gt;pos&lt;/code&gt;啊，&lt;code&gt;style&lt;/code&gt;啊这几个参数。&lt;/p&gt;
-&lt;h4 id=&#34;improve-the-layout&#34;&gt;Improve the layout&lt;/h4&gt;
-&lt;p&gt;WxPython has very rich vocabulary of objects to lay out controls.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;wx.BoxSizer&lt;/code&gt; is the most common and simple layout object but it permits a vast range of possibilities. Its role is roughly to arrange a set of controls in a line or in a row and rearrange them when needed (i.e. when the global size is changed).&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;wx.GridSizer&lt;/code&gt; and &lt;code&gt;wx.FlexGridSizer&lt;/code&gt; are two very important layout tools. They arrange the controls in a tabular layout.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Applications can be created for four different areas.
-&lt;img  src=&#34;http://zetcode.com/img/gui/wxpython/areas.jpg&#34;
-        alt=&#34;Application areas&#34;/&gt;&lt;/p&gt;
-&lt;p&gt;wxPython consists of the five basic modules.&lt;/p&gt;
-&lt;p&gt;&lt;img  src=&#34;http://zetcode.com/img/gui/wxpython/modules.jpg&#34;
-        alt=&#34;wxpython modules&#34;/&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The &lt;strong&gt;Windows&lt;/strong&gt; module consists of various windows that form an application, for instance a Panel, a Dialog, a Frame, or a Scrolled Window.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;The Graphics Device Interface (GDI)&lt;/strong&gt; is a set of classes used for drawing onto the widgets. This module contains classes for manipulation of Fonts, Colors, Brushes, Pens or Images.&lt;/li&gt;
-&lt;li&gt;The &lt;strong&gt;Core&lt;/strong&gt; module consists of elementary classes that are used in development. These classes include the Object class, which is the mother of all classes, Sizers, which are used for widget layout, Events, basic geometry classes like Point and Rectangle.&lt;/li&gt;
-&lt;li&gt;The &lt;strong&gt;Misc&lt;/strong&gt; module contains of various other classes and module functions. These classes are used for logging, application configuration, system settings, working with display or joystick.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Controls&lt;/strong&gt; module provides the common widgets found in graphical applications. For example a Button, a Toolbar, or a Notebook. Widgets are called controls under Windows OS.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;Widgets&lt;/strong&gt; are essential building blocks of a GUI application. Under Windows widgets are calles &lt;strong&gt;controls&lt;/strong&gt;&lt;/p&gt;
-</description>
+      <description>A wx.Frame is a top-level window. When people talk about GUIs, they usually speak of windows, menus and icons. Naturally then, you would expect that wx.Window should represent a window on the screen. Unfortunately, this is not the case. A wx.Window is the base class from which all visual elements are derived (buttons, menus, etc) and what we normally think of as a program window is a wx.Frame. This is an unfortunate inconsistency that has led to much confusion for new users. Within a frame, you&amp;rsquo;ll use a number of wxWindow sub-classes to flesh out the frame&amp;rsquo;s contents. Here are some of the more common elements you might want to put in your frame: A wx.MenuBar, which puts a menu</description>
     </item>
     
     <item>
@@ -375,13 +76,7 @@ ldconfig -p | grep libz.so.1
       <pubDate>Sat, 16 Apr 2016 10:36:03 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%AD%A6%E4%B9%A0/</guid>
-      <description>&lt;p&gt;对这门课的希望：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;能够通过学习正确的软件开发流程，并应用的实际构建过程中，以减少对时间的浪费，并保证软件的质量。&lt;/li&gt;
-&lt;li&gt;能够掌握软件开发每个流程的一些工具。学会使用工具很重要。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;没有实际目标，目的的学习，都是耍流氓。学和不学差不多。&lt;/p&gt;
-</description>
+      <description>对这门课的希望： 能够通过学习正确的软件开发流程，并应用的实际构建过程中，以减少对时间的浪费，并保证软件的质量。 能够掌握软件开发每个流程的一些工具。学会使用工具很重要。 没有实际目标，目的的学习，都是耍流氓。学和不学差不多。</description>
     </item>
     
     <item>
@@ -390,58 +85,7 @@ ldconfig -p | grep libz.so.1
       <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/rrdtool%E7%AC%94%E8%AE%B0/</guid>
-      <description>&lt;p&gt;首先是rrdtool这个工具的介绍：
-&lt;a href=&#34;http://zhaochj.blog.51cto.com/368705/1657026&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;rrd比较好的介绍&lt;/a&gt;
-以及
-&lt;a href=&#34;http://qushouxichuan.com/blog/article/60&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;rrdtool的python实例&lt;/a&gt;
-&lt;/p&gt;
-&lt;p&gt;其次，怎样才能把rrdtool生成的图弄得漂亮一些呢，默认的图太丑太不fashion了。&lt;/p&gt;
-&lt;h4 id=&#34;centos上安装rrdtool&#34;&gt;CentOS上安装rrdtool&lt;/h4&gt;
-&lt;p&gt;正常情况下，当然是用yum安装:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;yum install rrdtool rrdtool-devel
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pip install rrdtool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;由于网管系统是基于Python2.7开发的，centos6.5默认的python版本是2.6.6，手动升级到python2.7之后，再安装rrdtool的python支持（&lt;code&gt;pip install rrdtool&lt;/code&gt;), 在python使用，就会报错。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; rrdtool
-Traceback (most recent call last):
- File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;stdin&amp;gt;&amp;#34;&lt;/span&gt;, line &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;module&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color:#a6e22e&#34;&gt;ImportError&lt;/span&gt;: &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;usr&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;local&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;lib&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;python2&lt;span style=&#34;color:#ae81ff&#34;&gt;.7&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;site&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;packages&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;rrdtoolmodule&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;so: undefined symbol: rrd_flushcached
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;解决方案是：用rrdtool源码重新编译安装rrdtool（而不是通过yum源去安装rpm包）。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#由于rrdtool官网有时候会连不上，而且centos默认的rrdtool版本是1.3.8，所有我就自建下载地址
-wget http://oss.oetiker.ch/rrdtool/pub/rrdtool-1.3.8.tar.gz
-tar zxvf rrdtool-1.3.8.tar.gz
-cd rrdtool-1.3.8
-yum install -y libxml pango*
-./configure --prefix=/usr/local
-make
-make install
-
-# 安装rrdtool-python
-pip install rrdtool
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安装后如果遇到下面这个问题：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; import rrdtool
-Traceback (most recent call last):
-  File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;
-ImportError: librrd.so.4: cannot open shared object file: No such file or directory
-&amp;gt;&amp;gt;&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;解决办法是将rrdtool库做软链接到/usr/lib&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ln -s /usr/local/lib/librrd* /usr/lib
-ldconfig
-&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;安装rrdtool-php&#34;&gt;安装rrdtool-php&lt;/h5&gt;
-&lt;p&gt;环境：php版本5.3.3，rrdtool版本1.3.8&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;wget https://pecl.php.net/get/rrd-1.1.3.tgz
-tar xvf rrd-1.1.3.tgz
-cd rrd-1.1.3
-phpize # 是用来扩展php扩展模块的，通过phpize可以建立php的外挂模块
-./configure
-make
-make install
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在/etc/php.d/里添加rrd.ini，仿照其他的ini文件，填上内容。重启httpd服务，完事。
-哦， 不对，&lt;code&gt;php -m&lt;/code&gt;看一下rrd模块加载进去没，如果有rrd则完事。&lt;/p&gt;
-&lt;p&gt;附录：&lt;a href=&#34;https://www.phparch.com/2011/02/creating-rrd-graphs-in-php/&#34;target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;php的rrdtool教程&lt;/a&gt;
-&lt;/p&gt;
-</description>
+      <description>首先是rrdtool这个工具的介绍： rrd比较好的介绍以及 rrdtool的python实例 其次，怎样才能把rrdtool生成的图弄得漂亮一些呢，默认的图太丑太不fashion了。 CentOS上安装rrdtool 正常情况下，当然是用yum安装</description>
     </item>
     
     <item>
@@ -450,16 +94,106 @@ make install
       <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
       
       <guid>https://wgqimut.github.io/posts/flask%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-      <description>&lt;ol&gt;
-&lt;li&gt;当前工作路径&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;操作系统有进程当前工作目录的概念。不幸的是，你在 Web 应用中不能依赖此概念，因为你可能会在相同的进程中运行多个应用。&lt;/p&gt;
-&lt;p&gt;为此，提供了 app.root_path 属性以获取应用的路径。配合 os.path 模块使用，轻松可达任意文件&lt;/p&gt;
-&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;配置
-a cleaner solution would be to create a separate .ini or .py file and load that or import the values from there.&lt;/li&gt;
-&lt;/ol&gt;
-</description>
+      <description>当前工作路径 操作系统有进程当前工作目录的概念。不幸的是，你在 Web 应用中不能依赖此概念，因为你可能会在相同的进程中运行多个应用。 为此，提供了 app.root_path 属性以获取应用的路径。配合 os.path 模块使用，轻松可达任意文件 配置 a cleaner solution would be to create a separate .ini or .py file and load that or import the values from there.</description>
+    </item>
+    
+    <item>
+      <title>python装饰器学习</title>
+      <link>https://wgqimut.github.io/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sat, 09 Apr 2016 12:53:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python%E8%A3%85%E9%A5%B0%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description>装饰器的的几种用途： 注入参数（提供默认参数，生成参数） 记录函数行为（日志、缓存、计时什么的） 预处理／后处理（配置上下文什么的） 修改调用时的上下文（线程异步或者并行，类方法）</description>
+    </item>
+    
+    <item>
+      <title>性能优化模式</title>
+      <link>https://wgqimut.github.io/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 07 Apr 2016 12:43:03 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A8%A1%E5%BC%8F/</guid>
+      <description>一般而言，性能优化指降低响应时间和提高系统吞吐量两个方面，但在流量高峰时候，性能问题往往会表现为服务可用性下降，所以性能优化也可以包括提高服务可用性。在某些情况下，降低响应时间、提高系统吞吐量和提高服务可用性三者相互矛盾，不可兼得。例如：增</description>
+    </item>
+    
+    <item>
+      <title>python的from-import机制</title>
+      <link>https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Thu, 19 Nov 2015 09:16:26 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/python%E7%9A%84from-import%E6%9C%BA%E5%88%B6/</guid>
+      <description>在使用Python的过程中，我遇到了这么一个有关模块导入的bug。 先说我的目录结构 core foo.py bar.py shit.py fuck.py __init__.py （对，这就是我的目录结构😂） 其中fuck.py里import了shit和bar,shit和bar里都import了foo,但是import的方式是</description>
+    </item>
+    
+    <item>
+      <title>比较喜欢的人生态度</title>
+      <link>https://wgqimut.github.io/posts/%E6%AF%94%E8%BE%83%E5%96%9C%E6%AC%A2%E7%9A%84%E4%BA%BA%E7%94%9F%E6%80%81%E5%BA%A6/</link>
+      <pubDate>Mon, 09 Nov 2015 08:23:02 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E6%AF%94%E8%BE%83%E5%96%9C%E6%AC%A2%E7%9A%84%E4%BA%BA%E7%94%9F%E6%80%81%E5%BA%A6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>unix网络编程笔记</title>
+      <link>https://wgqimut.github.io/posts/unix%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 14 Jul 2015 09:31:13 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/unix%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/</guid>
+      <description>使用bzero而不是memset 使用inet_pton而不是inet_addr struct sockaddr, that is, a generic socket address structure. Everytime one of the socket functions requires a pointer to a socket address structure, that pointer must be cast to a pointer to a generic socket address structure. （因为socket函数出现的时候还没有void*）struct sockaddr太长了，一</description>
+    </item>
+    
+    <item>
+      <title>听歌</title>
+      <link>https://wgqimut.github.io/posts/%E5%90%AC%E6%AD%8C/</link>
+      <pubDate>Thu, 09 Jul 2015 08:33:21 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E5%90%AC%E6%AD%8C/</guid>
+      <description>《With or Without you》</description>
+    </item>
+    
+    <item>
+      <title>博客搭建</title>
+      <link>https://wgqimut.github.io/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Thu, 09 Jul 2015 00:56:36 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</guid>
+      <description>所以说我的博客终于搭建好了么？😂那么现在就差买一个域名了。好折腾。。。先来一个经典的hello world。 #include &amp;lt;stdio.h&amp;gt; int main(void) { printf(&amp;#34;hello, world&amp;#34;); return 0; } 黎明你好。困死了。。睡。</description>
+    </item>
+    
+    <item>
+      <title>tornado学习笔记</title>
+      <link>https://wgqimut.github.io/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 03 Apr 2015 12:42:23 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/tornado%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>状态机在编程中的应用</title>
+      <link>https://wgqimut.github.io/posts/%E7%8A%B6%E6%80%81%E6%9C%BA%E5%9C%A8%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Fri, 13 Feb 2015 12:34:09 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/posts/%E7%8A%B6%E6%80%81%E6%9C%BA%E5%9C%A8%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/</guid>
+      <description>正则表达式（解析字符串） 网络协议 游戏设计(人物的行为) 自动客服（如10086）（流程类的东西） 处理程序语言或者自然语言的 tokenizer 自底向上解析语法的parser 各种通信协议发送方和接受方传递数据时升级版， 如果状态之间的转换是有概率的，就是marko</description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
+      <link>https://wgqimut.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/about/</guid>
+      <description>一个手艺人, 聚焦于 filesystem, python, C</description>
+    </item>
+    
+    <item>
+      <title>归档</title>
+      <link>https://wgqimut.github.io/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://wgqimut.github.io/archives/</guid>
+      <description></description>
     </item>
     
   </channel>
